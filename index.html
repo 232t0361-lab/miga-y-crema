@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title> MIGA Y CREMA - Tienda Online</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://sdk.mercadopago.com/js/v2"></script>
+</head>
+<body>
+
+  <div id="checkout-modal" class="modal-backdrop hidden">
+    <div class="checkout-modal">
+      <button class="close-modal" onclick="cerrarCheckout()">✕</button>
+      <h2>Confirmar Pedido</h2>
+
+      <div class="checkout-grid">
+        <div class="checkout-form">
+          <input type="text" id="cliente-nombre" placeholder="Nombre completo">
+          <input type="tel" id="cliente-telefono" placeholder="Teléfono">
+          <textarea id="cliente-direccion" placeholder="Dirección de entrega"></textarea>
+
+          <select id="metodo-entrega">
+            <option value="domicilio">Entrega a domicilio</option>
+            <option value="local">Recoger en local</option>
+          </select>
+
+          <label for="metodo-pago-selector" style="margin-top:15px; display:block; font-weight:bold;">Método de Pago</label>
+          <select id="metodo-pago-selector" onchange="seleccionarMetodoPago()">
+            <option value="transferencia">Transferencia Bancaria BBVA</option>
+            <option value="tarjeta">Tarjeta de Crédito / Débito (Mercado Pago)</option>
+          </select>
+        </div>
+
+        <div class="checkout-resumen">
+          <h3>Resumen</h3>
+          <div id="checkout-items"></div>
+          <h3 id="checkout-total"></h3>
+
+          <div id="seccion-transferencia" class="bbva-box">
+            <h4>Pago por Transferencia BBVA</h4>
+            <p><strong>Banco:</strong> BBVA</p>
+            <p><strong>Cuenta:</strong> 4152 3144 4143 5370</p>
+            <p><strong>CLABE:</strong> 012 878 01501049729 0</p>
+            <p><strong>Titular:</strong> JARIVANNY ARLEN DOMINGUEZ MONTOYA</p>
+            
+            <label style="margin-top:10px; display:block;">Subir comprobante</label>
+            <input type="file" id="comprobante">
+            
+            <button class="btn-pagar" style="margin-top:10px; width:100%;" onclick="confirmarPago()">
+              Confirmar y Pagar
+            </button>
+          </div>
+
+          <div id="seccion-mercadopago" class="hidden" style="margin-top:15px;">
+            <h4>Paga de forma segura con Mercado Pago</h4>
+            <div id="wallet_container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="login-screen" class="login-screen">
+    <div class="login-card">
+      <img src="img/PORTADA.jpg" alt="Logo Miga y Cream" class="login-logo" />
+      <h1>Bienvenido a Miga y Crema</h1>
+      <p>Inicia sesión para continuar</p>
+
+      <label class="input-label">Email</label>
+      <input id="login-email" type="email" placeholder="tucorreo@ejemplo.com" />
+
+      <label class="input-label">Contraseña</label>
+      <input id="login-pass" type="password" placeholder="Contraseña" />
+
+      <button id="btn-login" class="login-btn">Continuar</button>
+
+      <div class="or-sep"><span>OR</span></div>
+
+      <p class="small">Al continuar, aceptas los <a href="#">Términos</a> y la <a href="#">Política</a>.</p>
+      <p class="small">¿Ya eres miembro? <a href="#" id="login-as-user">Entrar como cliente</a></p>
+    </div>
+  </div>
+
+  <div id="main-app" class="hidden">
+    <header>
+      <div class="logo-container">
+        <img src="img/PORTADA.jpg" alt="Logo MIGA Y CREMA" class="logo" />
+        <h1>MIGA Y CREMA</h1>
+      </div>
+
+      <nav>
+        <a href="#inicio">Inicio</a>
+        <a href="#conocenos">Conócenos</a>
+        <a href="#menu">Menú</a>
+        <a href="#contacto">Contacto</a>
+        <button id="btn-logout" class="small-ghost">Cerrar sesión</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="conoce" id="conoce">
+        <h2>Conócenos</h2>
+        <p>
+          En <strong>MIGA Y CREMA</strong> creemos firmemente que cada postre cuenta una historia.  
+          En este negocio se siente un gran amor por la repostería artesanal, donde tradición y creatividad se mezclan para dar vida a sabores únicos.  
+          Nuestro compromiso es ofrecerte productos frescos, elaborados con ingredientes de calidad y mucho amor, para que cada bocado se convierta en un momento especial.  
+          Más que vender postres, buscamos compartir experiences dulces que acompañen tus celebraciones, tus mañanas y tus recuerdos más importantes.
+          El sabor de los Postres "MIGA Y CREMA" siempre estarán acompañandote.
+        </p>
+      </section>  
+
+      <section id="menu" class="menu-visual">
+        <div class="menu-banner">
+          <h2>¿Qué deseas ordenar hoy?</h2>
+          <p>Selecciona una categoría para ver nuestros productos</p>
+        </div>
+
+        <div class="categorias-premium">
+          <div class="categoria-card" onclick="mostrarCategoria('postres')" style="background-image: linear-gradient(to top, rgba(162, 33, 76, 0.95) 20%, rgba(162, 33, 76, 0.2) 100%), url('img/chocoflan.jpg');">
+            <div class="categoria-overlay">
+              <div class="categoria-icon"></div>
+              <h3>Postres</h3>
+              <p>Deliciosos postres artesanales hechos con amor</p>
+              <button class="btn-ver-opciones">Ver opciones <span class="flecha">></span></button>
+            </div>
+          </div>
+
+          <div class="categoria-card" onclick="mostrarCategoria('bebidas')" style="background-image: linear-gradient(to top, rgba(162, 33, 76, 0.95) 20%, rgba(162, 33, 76, 0.2) 100%), url('img/bebida 5.jpg');">
+            <div class="categoria-overlay">
+              <div class="categoria-icon"></div>
+              <h3>Bebidas</h3>
+              <p>Bebidas frías y calientes para todos los gustos</p>
+              <button class="btn-ver-opciones">Ver opciones <span class="flecha">></span></button>
+            </div>
+          </div>
+
+          <div class="categoria-card" onclick="mostrarCategoria('desayunos')" style="background-image: linear-gradient(to top, rgba(162, 33, 76, 0.95) 20%, rgba(162, 33, 76, 0.2) 100%), url('img/DESAYUNO_6.jpg');">
+            <div class="categoria-overlay">
+              <div class="categoria-icon"></div>
+              <h3>Desayunos</h3>
+              <p>Desayunos especiales para cada ocasión</p>
+              <button class="btn-ver-opciones">Ver opciones <span class="flecha">></span></button>
+            </div>
+          </div>
+        </div>
+
+        <div id="postres-section" class="categoria-section hidden">
+          <h2 class="categoria-title">Postres Artesanales</h2>
+          <div class="galeria" id="postres-lista"></div>
+        </div>
+
+        <div id="bebidas-section" class="categoria-section hidden">
+          <h2 class="categoria-title">Bebidas</h2>
+          <div class="galeria bebidas-grid" id="bebidas-lista"></div>
+        </div>
+
+        <div id="desayunos-section" class="categoria-section hidden">
+          <h2 class="categoria-title">Desayunos</h2>
+          <div class="galeria desayunos-grid" id="desayunos-lista"></div>
+        </div>
+      </section>
+
+      <section id="admin-panel" class="admin-panel hidden">
+        <h2>Panel de Administrador</h2>
+        <p>Bienvenido, administrador. Aquí verás estadísticas y pedidos.</p>
+
+        <div class="admin-cards">
+          <div class="card">
+            <h3>Artículos en catálogo</h3>
+            <p id="admin-total-items">0</p>
+          </div>
+          <div class="card">
+            <h3>Pedidos totales</h3>
+            <p id="admin-carritos">0</p>
+          </div>
+        </div>
+
+        <h3>Pedidos (detallado)</h3>
+        <table class="orders-table" id="orders-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Usuario</th>
+              <th>Fecha</th>
+              <th>Método</th>
+              <th>Total</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody"></tbody>
+        </table>
+
+        <div style="margin-top:12px">
+          <button id="btn-clear-orders" class="btn-small btn-ghost">Eliminar historial de pedidos locales</button>
+        </div>
+      </section>
+
+      <section id="ubicacion" class="ubicacion" style="padding:20px 12px;">
+        <h2>Ubicación</h2>
+        <p>Calle Miguel Hidalgo S/N, Misantla, Veracruz</p>
+        <div style="max-width:900px;margin:0 auto" class="mapa-contenedor">
+          <iframe class="mapa" style="width:100%;height:360px;border:0;border-radius:12px" src="https://www.google.com/maps?q=19.94378,-96.84898&z=15&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contacto">
+      <h2>Contáctanos por nuestras redes sociales</h2>
+      <div class="redes">
+        <a href="https://www.facebook.com/share/1ZWwZdhMRP/?mibextid=wwXIfr" target="_blank">Facebook</a> |
+        <a href="https://www.instagram.com/miga_crema.04" target="_blank">Instagram</a> |
+        <a href="https://wa.me/5212321237364" target="_blank">WhatsApp</a>
+      </div>
+    </footer>
+  </div>
+
+  <div id="carrito-icono" onclick="toggleCarrito()" title="Ver carrito">🛒 <span id="contador-carrito">0</span></div>
+
+  <aside id="carrito-panel" class="carrito-panel hidden">
+    <div class="carrito-header">
+      <h2> Tu Carrito</h2>
+      <button class="close" onclick="toggleCarrito()">✕</button>
+    </div>
+
+    <ul id="carrito-lista" class="carrito-lista"></ul>
+
+    <div class="carrito-footer">
+      <p id="total">Total: $0</p>
+
+      <label for="metodo-pago">Método de Pago rápida</label>
+      <select id="metodo-pago">
+        <option value="efectivo">Efectivo</option>
+        <option value="tarjeta">Tarjeta</option>
+        <option value="transferencia">Transferencia</option>
+      </select>
+
+      <div class="carrito-actions">
+        <button onclick="finalizarCompra()" class="btn-small btn-primary">Finalizar Compra</button>
+        <button onclick="vaciarCarrito()" class="btn-small btn-ghost">Vaciar Carrito</button>
+      </div>
+    </div>
+  </aside>
+
+  <div id="order-modal-backdrop" class="modal-backdrop hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+      <button class="close-modal" onclick="closeOrderModal()">✕</button>
+      <h3 id="order-modal-title">Detalle del pedido</h3>
+      <div id="order-modal-body"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script>
+    // Inicialización de Mercado Pago
+    const mp = new MercadoPago("APP_USR-5b0ab2c2-25e8-4a01-b94a-5874108e45b8", {
+      locale: "es-MX"
+    });
+
+    // Tu arreglo original completo intacto sin omitir nada
+    const postres = [
+       {
+        nombre: "Beso de Angel",
+        precio: 50,
+        descripcion: "Tres en 1!!!, cheescake, flan y pastel de chocolate.",
+        imagen: "img/angel.jpg"
+       },
+       {
+        nombre: "Chocoflan",
+        precio: 50,
+        descripcion: "La mezcla perfecta de flan y pastel de chocolate.",
+        imagen: "img/chocoflan.jpg"
+       },
+       {
+        nombre: "Cheesecake de Zarzamora",
+        precio: 50,
+        descripcion: "Base crujiente de galleta con una cubierta de mermelada.",
+        imagen: "img/CHEESCAKE_ZARZAMORA.jpg",
+       },
+       {
+        nombre: "Cheesecake Tortuga",
+        precio: 50,
+        descripcion: "Base crujiente de galleta con una cubierta de mermelada.",
+        imagen: "img/CHEESCAKE_Tortuga.jpg",
+       },
+        {
+        nombre: "Cheescake de Oreo",
+        precio: 50,
+        descripcion: "Base crujiente de galleta de oreo.",
+        imagen: "img/CHEESCAKE_ OREO.jpg"
+       },
+       {
+        nombre: "Empanada Rellena",
+        precio: 12,
+        descripcion: "Crujiente y deliciosa empanade rellena de chocolate.",
+        imagen: "img/empanadas.jpg"
+       },
+        {
+        nombre: "Mini Hotcakes",
+        precio: 35, 
+        descripcion: "Pequeños y esponjosos, perfectos para compartir.",
+        imagen: "img/HOTCAKES.jpg"
+       },
+       {
+        nombre: "Mini Donitas",
+        precio: 35,
+        descripcion: "Mini donitas super ricas y calientitas.",
+        imagen: "img/DONITAS.jpg"
+       },
+       {
+        nombre: "Mini Waffles",
+        precio: 35,
+        descripcion: "Mini waffles super ricos, crujientes y calientitos.",
+        imagen: "img/DONITAS.jpg"
+       },
+       {
+        nombre: "Mojadito con Nuez",
+        precio: 35,
+        descripcion: "Pastelito de 3 leches cubierto de merengue y nuez.",
+        imagen: "img/MOJADITO1.jpg"
+       },
+        {
+        nombre: "Mojadito con Chispas de Chocolate",
+        precio: 35,
+        descripcion: "Pastelito de 3 leches cubierto de merengue y chispas de chocolate.",
+        imagen: "img/MOJADITO2.jpg"
+       },
+        {
+        nombre: "Mojadito de Galleta Oreo",
+        precio: 35,
+        descripcion: "Pastelito de 3 leches cubierto de merengue y galleta oreo.",
+        imagen: "img/MOJADITO3.jpg"
+       },
+       {
+        nombre: "Panque de Elote",
+        precio: 35,
+        descripcion: "Panque esponjoso y delicioso hecho de elote.",
+        imagen: "img/PANQUE_ELOTE.jpg"
+       },
+       {
+        nombre: "Pay de Queso",
+        precio: 50,
+        descripcion: "Esponjoso y Delicioso.",
+        imagen: "img/CHEESCAKE .jpg"
+       },
+        {
+        nombre: "Pastel Matilda",
+        precio: 300,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/PASTEL MATILDA.jpg"
+       },
+        {
+        nombre: "Trenza de Nutella y Philadelfia",
+        precio: 35,
+        descripcion: "Panecito largo como una trenza, relleno de nutella y queso philadelfia.",
+        imagen: "img/TRENZA.jpg"
+       },
+        {
+        nombre: "Trenza de Zarzamora",
+        precio: 35,
+        descripcion: "Panecito largo como una trenza, relleno de Zarzamora y queso philadelfia.",
+        imagen: "img/TRENZA.jpg"
+       },
+        {
+        nombre: "Desayuno Dulce",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO_5.jpg"
+       },
+       {
+        nombre: "Desayuno de Cumpleaños",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/cumpleaños 1.jpg"
+       },
+        {
+        nombre: "Desayuno de Cumpleaños",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO.jpg"
+       },
+        {
+        nombre: "Desayuno de Cumpleaños",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/cumpleaños 2.jpg"
+       },
+        {
+        nombre: "Desayuno de Cumpleaños",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/cumpleaños.jpg"
+       },
+       {
+        nombre: "Desayuno para Cumpleaños",
+        precio: 320,
+        descripcion: "Romántico desayuno con detalles dulces.",
+        imagen: "img/cumpleaños 3.jpg"
+       },
+       {
+        nombre: "Desayuno para Cumpleaños",
+        precio: 320,
+        descripcion: "Romántico desayuno con detalles dulces.",
+        imagen: "img/cumpleaños 4.jpg"
+       },
+        {
+        nombre: "Desayuno Fresco",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO_2.jpg"
+       },
+        {
+        nombre: "Desayuno Amigable",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO_3.jpg"
+       },
+       {
+        nombre: "Desayuno para Mamá",
+        precio: 320,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO1.jpg"
+       },
+       {
+        nombre: "Desayuno para Mamá",
+        precio: 350,
+        descripcion: "El mejor dia para endulzarle la vida a mamá.",
+        imagen: "img/MAMA.jpg"
+       },
+        {
+        nombre: "Desayuno Fresco",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO_4.jpg"
+       },
+       {
+        nombre: "Desayuno para Pareja",
+        precio: 320,
+        descripcion: "Romántico desayuno con detalles dulces.",
+        imagen: "img/DESAYUNO_6.jpg"
+       },
+       {
+        nombre: "Desayuno para Pareja",
+        precio: 320,
+        descripcion: "Romántico desayuno con detalles dulces.",
+        imagen: "img/DESAYUNO_7.jpg"
+       },
+        {
+        nombre: "Desayuno para Pareja",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/DESAYUNO_0.jpg"
+       },
+        {
+        nombre: "Desayuno para Pareja",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/desayuno 10.jpg"
+       },
+       {
+        nombre: "Desayuno para el Dia del Maestro",
+        precio: 350,
+        descripcion: "Un dulce desayuno para el/la mejor Maestr@.",
+        imagen: "img/maestro.jpg"
+       },
+        {
+        nombre: "Eventos",
+        precio: 240,
+        descripcion: "disponibles para cualquier evento.",
+        imagen: "img/EVENTOS.jpg"
+       },
+       {
+        nombre: "Soda Italiana",
+        precio: 50,
+        descripcion: "Rica soda burbujeante sabor fresa.",
+        imagen: "img/bebida 1.jpg"
+       },
+       {
+        nombre: "Soda Italiana",
+        precio: 50,
+        descripcion: "Rica soda burbujenate sabor fresa",
+        imagen: "img/bebida 2.jpg"
+       },
+       {
+        nombre: "Soda Italiana",
+        precio: 50,
+        descripcion: "Rica soda burbujenate sabor manzana",
+        imagen: "img/bebida 10.jpg"
+       },
+       {
+        nombre: "Capuchino",
+        precio: 70,
+        descripcion: "Delicioso capuchino.",
+        imagen: "img/bebida 3.jpg"
+       },
+       {
+        nombre: "Cafe",
+        precio: 70,
+        descripcion: "Delicioso cafe.",
+        imagen: "img/bebida cafe.jpg"
+       },
+       {
+        nombre: "Frappe de Moka",
+        precio: 70,
+        descripcion: "Delicioso Frappe de moka.",
+        imagen: "img/bebida moka.jpg"
+       },
+       {
+        nombre: "Frappe de Carlos V",
+        precio: 70,
+        descripcion: "Delicioso Frappe de chocolate carlos v.",
+        imagen: "img/bebida carlos.jpg"
+       },
+       {
+        nombre: "Frappe de Ferrero Rocher",
+        precio: 60,
+        descripcion: "Un frappe dulce y rico.",
+        imagen: "img/bebida 9.jpg"
+       },
+       {
+        nombre: "Frappe de Crema Irlandesa",
+        precio: 70,
+        descripcion: "Delicioso Frappe de Crema Irlandesa.",
+        imagen: "img/bebida mazapan.jpg"
+       },
+       {
+        nombre: "Frappe de Gansito",
+        precio: 60,
+        descripcion: "Disfruta un delicioso frappe de gansito.",
+        imagen: "img/Bebida 6.jpg"
+       },
+       {
+        nombre: "Frappe de Oreo",
+        precio: 60,
+        descripcion: "Rico frappe de oreo, ven a probarlo.",
+        imagen: "img/bebida 7.jpg"
+       },
+       {
+        nombre: "Frappe de Taroo",
+        precio: 60,
+        descripcion: "Rico y nuevo frappe de taroo.",
+        imagen: "img/bebida 8.jpg"
+       },
+       {
+        nombre: "Frappe de Mazapan",
+        precio: 60,
+        descripcion: "Rico frappe de mazapan super frio y muy rico.",
+        imagen: "img/mazapan.jpg"
+       }
+    ];
+
+    /* ---------- Estado y persistencia ---------- */
+    let carrito = JSON.parse(localStorage.getItem("miga_cart") || "[]");
+    let usuarioActual = null;
+    let isAdmin = false;
+
+    /* ---------- Utils ---------- */
+    function showToast(msg, timeout = 2000) {
+      const t = document.getElementById("toast");
+      t.textContent = msg;
+      t.classList.remove("hidden");
+      t.style.opacity = "1";
+      setTimeout(() => {
+        t.style.opacity = "0";
+        setTimeout(() => t.classList.add("hidden"), 300);
+      }, timeout);
+    }
+
+    /* ---------- LOGIN ---------- */
+    function abrirAppComo(role = "user") {
+      isAdmin = (role === "admin");
+      document.getElementById("login-screen").classList.add("hidden");
+      document.getElementById("main-app").classList.remove("hidden");
+      document.getElementById("admin-panel").classList.toggle("hidden", !isAdmin);
+
+      generarMenu();
+      actualizarCarritoUI();
+      renderAdminOrders();
+    }
+
+    document.getElementById("btn-login").addEventListener("click", () => {
+      const email = document.getElementById("login-email").value.trim();
+      const pass = document.getElementById("login-pass").value;
+
+      if (email === "admin@admin.com" && pass === "admin123") {
+        usuarioActual = email;
+        abrirAppComo("admin");
+        showToast("Bienvenido, administrador");
+        return;
+      }
+
+      if (!email || !pass) {
+        showToast("Introduce email y contraseña");
+        return;
+      }
+
+      usuarioActual = email;
+      abrirAppComo("user");
+      showToast(`Bienvenido ${email}`);
+    });
+
+    document.getElementById("login-as-user").addEventListener("click", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("login-email").value.trim() || `cliente${Date.now()}@demo.com`;
+      document.getElementById("login-email").value = email;
+      usuarioActual = email;
+      abrirAppComo("user");
+      showToast(`Entrando como ${email}`);
+    });
+
+    document.getElementById("btn-logout").addEventListener("click", () => {
+      usuarioActual = null;
+      isAdmin = false;
+      document.getElementById("main-app").classList.add("hidden");
+      document.getElementById("login-screen").classList.remove("hidden");
+      document.getElementById("login-email").value = "";
+      document.getElementById("login-pass").value = "";
+    });
+
+    /* ---------- Generar catálogo ---------- */
+    function generarMenu() {
+      const postresCont = document.getElementById("postres-lista");
+      const bebidasCont = document.getElementById("bebidas-lista");
+      const desayunosCont = document.getElementById("desayunos-lista");
+
+      postresCont.innerHTML = "";
+      bebidasCont.innerHTML = "";
+      desayunosCont.innerHTML = "";
+
+      postres.forEach((p,index)=>{
+        const card = document.createElement("div");
+        card.className = "postre";
+        card.innerHTML = `
+          <img src="${p.imagen}" alt="${p.nombre}">
+          <h3>${p.nombre}</h3>
+          <p class="desc">${p.descripcion}</p>
+          <p><strong>$${p.precio}</strong></p>
+          <div class="add-row">
+            <input type="number" id="cantidad-${index}" min="1" value="1" class="cantidad-input">
+            <button class="small" onclick="agregarCarrito(${index})">Agregar</button>
+          </div>
+        `;
+
+        if(p.nombre.includes("Frappe") || p.nombre.includes("Capuchino") || p.nombre.includes("Soda")){
+          bebidasCont.appendChild(card);
+        } else if(p.nombre.includes("Desayuno") || p.nombre.includes("Eventos")){
+          desayunosCont.appendChild(card);
+        } else {
+          postresCont.appendChild(card);
+        }
+      });
+
+      // Actualizar contador de items en admin
+      if(document.getElementById("admin-total-items")) {
+        document.getElementById("admin-total-items").textContent = postres.length;
+      }
+    }
+
+    /* ========= CAMBIAR CATEGORIAS ========= */
+    function mostrarCategoria(categoria){
+      document.getElementById("postres-section").classList.add("hidden");
+      document.getElementById("bebidas-section").classList.add("hidden");
+      document.getElementById("desayunos-section").classList.add("hidden");
+
+      if(categoria === "postres"){
+        document.getElementById("postres-section").classList.remove("hidden");
+      }
+      if(categoria === "bebidas"){
+        document.getElementById("bebidas-section").classList.remove("hidden");
+      }
+      if(categoria === "desayunos"){
+        document.getElementById("desayunos-section").classList.remove("hidden");
+      }
+    }
+
+    /* ---------- Carrito: agregar / actualizar / eliminar ---------- */
+    function guardarCarrito() {
+      localStorage.setItem("miga_cart", JSON.stringify(carrito));
+      actualizarCarritoUI();
+    }
+
+    function agregarCarrito(index) {
+      const cantidadInput = document.getElementById(`cantidad-${index}`);
+      let cantidad = parseInt(cantidadInput?.value || 1, 10);
+      if (!cantidad || cantidad < 1) cantidad = 1;
+
+      const producto = postres[index];
+      const existente = carrito.find(it => it.nombre === producto.nombre);
+      if (existente) existente.cantidad += cantidad;
+      else carrito.push({ nombre: producto.nombre, precio: producto.precio, cantidad, imagen: producto.imagen });
+
+      guardarCarrito();
+      showToast(`Agregaste ${cantidad} x ${producto.nombre}`);
+    }
+
+    function toggleCarrito() {
+      document.getElementById("carrito-panel").classList.toggle("hidden");
+    }
+
+    function actualizarCarritoUI() {
+      const contador = carrito.reduce((s, it) => s + it.cantidad, 0);
+      document.getElementById("contador-carrito").textContent = contador;
+
+      const lista = document.getElementById("carrito-lista");
+      lista.innerHTML = "";
+      let total = 0;
+      carrito.forEach((item, idx) => {
+        const li = document.createElement("li");
+        li.className = "carrito-item";
+        li.innerHTML = `
+          <div class="ci-left"><img src="${item.imagen}" alt="${item.nombre}" onerror="this.src='img/placeholder.png'"></div>
+          <div class="ci-body">
+            <div class="ci-title">${item.nombre}</div>
+            <div class="ci-price">$${item.precio} c/u</div>
+            <div class="ci-controls">
+              <button class="qty-btn" data-idx="${idx}" data-delta="-1">−</button>
+              <input type="number" class="qty-input" value="${item.cantidad}" min="1" data-idx="${idx}" />
+              <button class="qty-btn" data-idx="${idx}" data-delta="1">+</button>
+              <button class="remove" data-remove="${idx}">Eliminar</button>
+            </div>
+          </div>
+        `;
+        lista.appendChild(li);
+        total += item.precio * item.cantidad;
+      });
+
+      document.getElementById("total").textContent = `Total: $${total}`;
+      localStorage.setItem("miga_cart", JSON.stringify(carrito));
+
+      // Asignación de delegación de eventos en el carrito
+      lista.querySelectorAll(".qty-btn").forEach(b => b.addEventListener("click", (e) => {
+        const i = parseInt(b.dataset.idx, 10), d = parseInt(b.dataset.delta, 10);
+        cambiarCantidad(i, d);
+      }));
+      lista.querySelectorAll(".qty-input").forEach(inp => inp.addEventListener("change", (e) => {
+        const i = parseInt(inp.dataset.idx, 10);
+        setCantidadFromInput(i, inp.value);
+      }));
+      lista.querySelectorAll(".remove").forEach(btn => btn.addEventListener("click", (e) => {
+        const i = parseInt(btn.dataset.remove, 10);
+        eliminarItem(i);
+      }));
+
+      renderAdminOrders();
+    }
+
+    function setCantidadFromInput(idx, value) {
+      let v = parseInt(value, 10);
+      if (!v || v < 1) v = 1;
+      carrito[idx].cantidad = v;
+      actualizarCarritoUI();
+    }
+
+    function cambiarCantidad(idx, delta) {
+      carrito[idx].cantidad += delta;
+      if (carrito[idx].cantidad < 1) carrito[idx].cantidad = 1;
+      actualizarCarritoUI();
+    }
+
+    function eliminarItem(idx) {
+      const nombre = carrito[idx].nombre;
+      carrito.splice(idx, 1);
+      actualizarCarritoUI();
+      showToast(`${nombre} eliminado`);
+    }
+
+    function vaciarCarrito() {
+      if (!confirm("¿Deseas vaciar el carrito?")) return;
+      carrito = [];
+      guardarCarrito();
+      showToast("Carrito vaciado");
+    }
+
+    /* ---------- FINALIZAR COMPRA (MODAL DINÁMICO) ---------- */
+    function finalizarCompra(){
+      if(carrito.length === 0){
+          showToast("Tu carrito está vacío");
+          return;
+      }
+
+      const modal = document.getElementById("checkout-modal");
+      const items = document.getElementById("checkout-items");
+      let html = "";
+      let total = 0;
+
+      carrito.forEach(item => {
+          html += `<p>${item.cantidad} x ${item.nombre} - $${item.precio * item.cantidad}</p>`;
+          total += item.precio * item.cantidad;
+      });
+
+      items.innerHTML = html;
+      document.getElementById("checkout-total").innerHTML = `Total: $${total}`;
+
+      // Mostrar el modal y resetear la opción visible a transferencia por defecto
+      modal.classList.remove("hidden");
+      document.getElementById("metodo-pago-selector").value = "transferencia";
+      seleccionarMetodoPago();
+    }
+
+    function cerrarCheckout(){
+      document.getElementById("checkout-modal").classList.add("hidden");
+    }
+
+    /* INTERRUPTOR: Alterna entre Transferencia BBVA y Mercado Pago */
+    function seleccionarMetodoPago() {
+      const metodo = document.getElementById("metodo-pago-selector").value;
+      const seccionTransferencia = document.getElementById("seccion-transferencia");
+      const seccionMercadoPago = document.getElementById("seccion-mercadopago");
+
+      if (metodo === "transferencia") {
+        seccionTransferencia.classList.remove("hidden");
+        seccionMercadoPago.classList.add("hidden");
+      } else if (metodo === "tarjeta") {
+        seccionTransferencia.classList.add("hidden");
+        seccionMercadoPago.classList.remove("hidden");
+        
+        // Pide las credenciales de preferencia y renderiza el botón de Mercado Pago
+        generarBotonMercadoPago();
+      }
+    }
+
+    /* LLAMADO AL BACKEND (SERVER.JS) PARA GENERAR EL BOTÓN AZUL */
+    /* LLAMADO AL BACKEND (SERVER.JS) PARA GENERAR EL BOTÓN AZUL */
+function generarBotonMercadoPago() {
+  document.getElementById("wallet_container").innerHTML = "<p>Cargando botón de pago seguro...</p>";
+
+  // CAMBIA ESTA LÍNEA agregando http://localhost:3000
+  fetch("http://localhost:3000/create_preference", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ items: carrito })
+  })
+  .then(response => response.json())
+  .then(preference => {
+    document.getElementById("wallet_container").innerHTML = ""; // Quitar mensaje de carga
+    
+    // Generar el Brick oficial de Mercado Pago
+    mp.bricks().create("wallet", "wallet_container", {
+      initialization: {
+        preferenceId: preference.id,
+      },
+      customization: {
+        texts: {
+          valueProp: 'smart_option',
+        },
+      },
+    });
+  })
+  .catch(error => {
+    console.error("Error:", error);
+    document.getElementById("wallet_container").innerHTML = "<p style='color:red;'>Error al cargar Mercado Pago</p>";
+  });
+}
+
+    /* CONFIRMAR PAGO MANUAL (WHATSAPP) */
+    function confirmarPago(){
+      const nombre = document.getElementById("cliente-nombre").value.trim();
+      const telefono = document.getElementById("cliente-telefono").value.trim();
+      const direccion = document.getElementById("cliente-direccion").value.trim();
+      const metodoEntrega = document.getElementById("metodo-entrega").value;
+      const comprobante = document.getElementById("comprobante").files[0];
+
+      if(!nombre || !telefono || !direccion){
+          showToast("Completa todos los datos");
+          return;
+      }
+
+      if(!comprobante){
+          showToast("Debes subir tu comprobante de pago");
+          return;
+      }
+
+      let total = 0;
+      let resumen = "";
+
+      carrito.forEach(item=>{
+          const subtotal = item.precio * item.cantidad;
+          total += subtotal;
+          resumen += `• ${item.nombre}\nCantidad: ${item.cantidad}\nSubtotal: $${subtotal}\n\n`;
+      });
+
+      const mensaje = `*NUEVO PEDIDO - MIGA Y CREMA*\n\nCliente:\n${nombre}\n\nTeléfono:\n${telefono}\n\nDirección:\n${direccion}\n\nEntrega:\n${metodoEntrega}\n\nPedido:\n${resumen}\nTOTAL:\n$${total}\n\nEl cliente indicó que ya realizó la transferencia y adjuntó comprobante.\n\nConfirmar de Recibido`;
+      const numeroVendedor = "522321237364";
+      const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensaje)}`;
+
+      // Guardar pedido local
+      const pedidos = JSON.parse(localStorage.getItem("miga_orders") || "[]");
+      pedidos.push({
+          id: Date.now(),
+          cliente: nombre,
+          telefono,
+          direccion,
+          total,
+          fecha: new Date().toISOString(),
+          items: carrito
+      });
+
+      localStorage.setItem("miga_orders", JSON.stringify(pedidos));
+
+      carrito = [];
+      guardarCarrito();
+      cerrarCheckout();
+      window.open(url,"_blank");
+      showToast("Pedido enviado correctamente");
+    }
+
+    /* ---------- LOGS Y RENDER DE HISTORIAL LOCAL ---------- */
+    function registroPedidoLocal(info) {
+      const logs = JSON.parse(localStorage.getItem("miga_logs") || "[]");
+      logs.push(info);
+      localStorage.setItem("miga_logs", JSON.stringify(logs));
+    }
+
+    function renderAdminOrders() {
+      const pedidos = JSON.parse(localStorage.getItem("miga_orders") || "[]");
+      if(document.getElementById("admin-carritos")) {
+        document.getElementById("admin-carritos").textContent = pedidos.length;
+      }
+      
+      const tbody = document.getElementById("orders-tbody");
+      if(tbody) {
+        tbody.innerHTML = "";
+        pedidos.forEach((p, index) => {
+          const tr = document.createElement("tr");
+          tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${p.cliente || "Anónimo"}</td>
+            <td>${new Date(p.fecha).toLocaleDateString()}</td>
+            <td>${p.metodo || "Transferencia"}</td>
+            <td><strong>$${p.total}</strong></td>
+            <td><button class="btn-small" onclick="alert('Detalle del pedido de ${p.cliente}')">Ver</button></td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+    }
+
+    document.getElementById("btn-clear-orders")?.addEventListener("click", () => {
+      if(confirm("¿Limpiar historial local de pedidos?")) {
+        localStorage.setItem("miga_orders", "[]");
+        renderAdminOrders();
+      }
+    });
+  </script>
+</body>
+</html>
