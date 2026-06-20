@@ -236,7 +236,7 @@ body {
 
 
 /* ==========================================================================
-   CARRUSEL ESTILO BANNER COMERCIAL CON PAGINACIÓN (ALTURA FIJA CONTROLADA)
+   CARRUSEL BANNER - CORRECCIÓN DE FLUJO Y DESLIZAMIENTO
    ========================================================================== */
 .carrusel-wrapper {
   max-width: 1000px;
@@ -248,27 +248,27 @@ body {
 .carrusel-container {
   position: relative;
   width: 100%;
-  height: 350px !important; /* Altura máxima fija en PC para formato panorámico */
+  height: 380px !important; /* Altura fija estándar en PC */
   overflow: hidden;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
 }
 .carrusel-track {
   display: flex;
-  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
   width: 100%;
   height: 100% !important;
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
 }
 .carrusel-slide {
   min-width: 100%;
   width: 100%;
   height: 100% !important;
-  flex-shrink: 0;
+  flex-shrink: 0; /* Evita que las imágenes se aplasten entre sí */
 }
 .carrusel-slide img {
   width: 100% !important;
   height: 100% !important;
-  object-fit: cover !important; /* Recorta la foto inteligentemente adaptándola al rectángulo */
+  object-fit: cover !important; /* Ajusta tus fotos sin deformar ni estirar */
   object-position: center;
   display: block;
 }
@@ -276,7 +276,7 @@ body {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(255, 255, 255, 0.9);
+  background: white;
   color: #333;
   border: none;
   width: 45px;
@@ -298,7 +298,7 @@ body {
 .carrusel-btn.prev { left: 20px; }
 .carrusel-btn.next { right: 20px; }
 
-/* Indicadores de bolitas (Dots) abajo */
+/* Indicadores de bolitas inferiores */
 .carrusel-dots {
   display: flex;
   justify-content: center;
@@ -314,14 +314,14 @@ body {
   transition: background 0.3s, transform 0.3s;
 }
 .dot.active {
-  background: #a2214c; /* Tu color de marca principal */
+  background: #a2214c; /* Color cereza de tu identidad visual */
   transform: scale(1.2);
 }
 
-/* Adaptación perfecta a pantallas móviles */
+/* Vista perfecta adaptada a celulares */
 @media (max-width: 768px) {
   .carrusel-container { 
-    height: 180px !important; /* Altura baja ideal para que no tape la pantalla del celular */
+    height: 180px !important; /* Altura ideal en móvil para no tapar contenido */
   } 
   .carrusel-btn { width: 35px; height: 35px; font-size: 0.9rem; }
   .carrusel-btn.prev { left: 15px; }
