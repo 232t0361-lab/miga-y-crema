@@ -100,6 +100,31 @@
     </header>
 
     <main>
+      <!-- NUEVO: Carrusel de Anuncios / Promociones -->
+      <section class="carrusel-container" id="inicio">
+        <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
+        <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
+        
+        <div class="carrusel-track" id="carruselTrack">
+          <!-- Anuncio 1 -->
+          <div class="carrusel-slide">
+            <img src="img/chocoflan.jpg" alt="Anuncio 1">
+            <div class="carrusel-caption">✨ ¡Prueba nuestro delicioso Chocoflan recién horneado! ✨</div>
+          </div>
+          <!-- Anuncio 2 -->
+          <div class="carrusel-slide">
+            <img src="img/desayuno_6.jpg" alt="Anuncio 2">
+            <div class="carrusel-caption">📅 Recuerda ordenar tus Desayunos Sorpresa con 2 días de anticipación.</div>
+          </div>
+          <!-- Anuncio 3 -->
+          <div class="carrusel-slide">
+            <img src="img/bebida 5.jpg" alt="Anuncio 3">
+            <div class="carrusel-caption">🥤 Acompaña tus tardes con nuestra variedad de Frappés y Sodas Italianas.</div>
+          </div>
+        </div>
+      </section>
+    
+    <main>
       <section class="conoce" id="conoce">
         <h2>Conócenos</h2>
         <p>
@@ -305,6 +330,14 @@
         {
         nombre: "Mini Hotcakes",
         precio: 35, 
+        tipo_de_charola: "chica",
+        descripcion: "Pequeños y esponjosos, perfectos para compartir.",
+        imagen: "img/hotcakes.jpg"
+       },
+       {
+        nombre: "Mini Hotcakes",
+        tipo_de_charola: "grande",
+        precio: 60, 
         descripcion: "Pequeños y esponjosos, perfectos para compartir.",
         imagen: "img/hotcakes.jpg"
        },
