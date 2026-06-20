@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title> MIGA Y CREMA - Tienda Online</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://sdk.mercadopago.com/js/v2"></script>
 </head>
 <body>
 
@@ -28,7 +27,7 @@
           <label for="metodo-pago-selector" style="margin-top:15px; display:block; font-weight:bold;">Método de Pago</label>
           <select id="metodo-pago-selector" onchange="seleccionarMetodoPago()">
             <option value="transferencia">Transferencia Bancaria BBVA</option>
-            <option value="tarjeta">Tarjeta de Crédito / Débito (Mercado Pago)</option>
+            <option value="efectivo">Efectivo (Pago al recibir/entregar)</option>
           </select>
         </div>
 
@@ -38,23 +37,25 @@
           <h3 id="checkout-total"></h3>
 
           <div id="seccion-transferencia" class="bbva-box">
-            <h4>Pago por Transferencia BBVA</h4>
-            <p><strong>Banco:</strong> BBVA</p>
-            <p><strong>Cuenta:</strong> 4152 3144 4143 5370</p>
-            <p><strong>CLABE:</strong> 012 878 01501049729 0</p>
-            <p><strong>Titular:</strong> JARIVANNY ARLEN DOMINGUEZ MONTOYA</p>
-            
-            <label style="margin-top:10px; display:block;">Subir comprobante</label>
-            <input type="file" id="comprobante">
+            <div id="datos-banco-bbva">
+              <h4>Pago por Transferencia BBVA</h4>
+              <p><strong>Banco:</strong> BBVA</p>
+              <p><strong>Cuenta:</strong> 4152 3144 4143 5370</p>
+              <p><strong>CLABE:</strong> 012 878 01501049729 0</p>
+              <p><strong>Titular:</strong> JARIVANNY ARLEN DOMINGUEZ MONTOYA</p>
+              
+              <label style="margin-top:10px; display:block; font-weight: bold;" id="label-comprobante">Subir comprobante *</label>
+              <input type="file" id="comprobante">
+            </div>
+
+            <div id="nota-efectivo" style="display:none; padding: 10px 0;">
+              <h4>Pago en Efectivo</h4>
+              <p>Prepara el monto exacto para agilizar tu entrega.</p>
+            </div>
             
             <button class="btn-pagar" style="margin-top:10px; width:100%;" onclick="confirmarPago()">
               Confirmar y Pagar
             </button>
-          </div>
-
-          <div id="seccion-mercadopago" class="hidden" style="margin-top:15px;">
-            <h4>Paga de forma segura con Mercado Pago</h4>
-            <div id="wallet_container"></div>
           </div>
         </div>
       </div>
@@ -63,7 +64,7 @@
 
   <div id="login-screen" class="login-screen">
     <div class="login-card">
-      <img src="img/portada.jpg" alt="Logo Miga y Cream" class="login-logo" />
+      <img src="img/PORTADA.jpg" alt="Logo Miga y Cream" class="login-logo" />
       <h1>Bienvenido a Miga y Crema</h1>
       <p>Inicia sesión para continuar</p>
 
@@ -85,7 +86,7 @@
   <div id="main-app" class="hidden">
     <header>
       <div class="logo-container">
-        <img src="img/portada.jpg" alt="Logo MIGA Y CREMA" class="logo" />
+        <img src="img/PORTADA.jpg" alt="Logo MIGA Y CREMA" class="logo" />
         <h1>MIGA Y CREMA</h1>
       </div>
 
@@ -122,7 +123,7 @@
               <div class="categoria-icon"></div>
               <h3>Postres</h3>
               <p>Deliciosos postres artesanales hechos con amor</p>
-              <button class="btn-ver-opciones">Ver opciones <span class="flecha">></span></button>
+              <button class="btn-ver-opciones">Ver opciones <span class="flecha"></span></button>
             </div>
           </div>
 
@@ -131,7 +132,7 @@
               <div class="categoria-icon"></div>
               <h3>Bebidas</h3>
               <p>Bebidas frías y calientes para todos los gustos</p>
-              <button class="btn-ver-opciones">Ver opciones <span class="flecha">></span></button>
+              <button class="btn-ver-opciones">Ver opciones <span class="flecha"></span></button>
             </div>
           </div>
 
@@ -140,7 +141,7 @@
               <div class="categoria-icon"></div>
               <h3>Desayunos</h3>
               <p>Desayunos especiales para cada ocasión</p>
-              <button class="btn-ver-opciones">Ver opciones <span class="flecha">></span></button>
+              <button class="btn-ver-opciones"> Ver opciones <span class="flecha"></span></button>
             </div>
           </div>
         </div>
@@ -152,7 +153,10 @@
 
         <div id="bebidas-section" class="categoria-section hidden">
           <h2 class="categoria-title">Bebidas</h2>
-          <div class="galeria bebidas-grid" id="bebidas-lista"></div>
+          <h3 style="color: #a2214c; margin: 20px 0 10px 10px; font-size: 1.5rem;"> Bebidas Calientes</h3>
+          <div class="galeria bebidas-grid" id="bebidas-calientes-lista"></div>
+          <h3 style="color: #a2214c; margin: 30px 0 10px 10px; font-size: 1.5rem;"> Bebidas Frías</h3>
+          <div class="galeria bebidas-grid" id="bebidas-frias-lista"></div>
         </div>
 
         <div id="desayunos-section" class="categoria-section hidden">
@@ -205,7 +209,7 @@
       </section>
     </main>
 
-    <footer id="contacto">
+    <footer>
       <h2>Contáctanos por nuestras redes sociales</h2>
       <div class="redes">
         <a href="https://www.facebook.com/share/1ZWwZdhMRP/?mibextid=wwXIfr" target="_blank">Facebook</a> |
@@ -231,7 +235,6 @@
       <label for="metodo-pago">Método de Pago rápida</label>
       <select id="metodo-pago">
         <option value="efectivo">Efectivo</option>
-        <option value="tarjeta">Tarjeta</option>
         <option value="transferencia">Transferencia</option>
       </select>
 
@@ -253,18 +256,12 @@
   <div id="toast" class="toast hidden"></div>
 
   <script>
-    // Inicialización de Mercado Pago
-    const mp = new MercadoPago("APP_USR-5b0ab2c2-25e8-4a01-b94a-5874108e45b8", {
-      locale: "es-MX"
-    });
-
-    // Tu arreglo original completo intacto sin omitir nada
     const postres = [
        {
         nombre: "Beso de Angel",
         precio: 50,
-        descripcion: "Tres en 1!!!, cheescake, flan y pastel de chocolate.",
-        imagen: "./img/angel.jpg"
+        descripcion: "Una rebanada celestial, suave y cremosa que te hará suspirar con cada bocado.",
+        imagen: "img/angel.jpg"
        },
        {
         nombre: "Chocoflan",
@@ -276,16 +273,16 @@
         nombre: "Cheesecake de Zarzamora",
         precio: 50,
         descripcion: "Base crujiente de galleta con una cubierta de mermelada.",
-        imagen: "img/cheescake_zarzamora.jpg",
+        imagen: "img/CHEESCAKE_ZARZAMORA.jpg",
        },
        {
         nombre: "Cheesecake Tortuga",
         precio: 50,
         descripcion: "Base crujiente de galleta con una cubierta de mermelada.",
-        imagen: "img/cheescake_tortuga.jpg",
+        imagen: "img/CHEESCAKE_Tortuga.jpg",
        },
         {
-        nombre: "Cheescake de Oreo",
+        nombre: "Cheesecake de Oreo",
         precio: 50,
         descripcion: "Base crujiente de galleta de oreo.",
         imagen: "img/cheescake_oreo.jpg"
@@ -300,19 +297,19 @@
         nombre: "Mini Hotcakes",
         precio: 35, 
         descripcion: "Pequeños y esponjosos, perfectos para compartir.",
-        imagen: "img/hotcakes.jpg"
+        imagen: "img/HOTCAKES.jpg"
        },
        {
         nombre: "Mini Donitas",
         precio: 35,
         descripcion: "Mini donitas super ricas y calientitas.",
-        imagen: "img/donitas.jpg"
+        imagen: "img/DONITAS.jpg"
        },
        {
         nombre: "Mini Waffles",
         precio: 35,
         descripcion: "Mini waffles super ricos, crujientes y calientitos.",
-        imagen: "img/donitas.jpg"
+        imagen: "img/DONITAS.jpg"
        },
        {
         nombre: "Mojadito con Nuez",
@@ -350,6 +347,12 @@
         descripcion: "Un detalle muy dulce.",
         imagen: "img/pastel_matilda.jpg"
        },
+       {
+        nombre: "Pastel de Zanahoria",
+        precio: 300,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/pastel de zanahoria.jpg"
+       },
         {
         nombre: "Trenza de Nutella y Philadelfia",
         precio: 35,
@@ -361,12 +364,6 @@
         precio: 35,
         descripcion: "Panecito largo como una trenza, relleno de Zarzamora y queso philadelfia.",
         imagen: "img/trenza.jpg"
-       },
-        {
-        nombre: "Desayuno Dulce",
-        precio: 240,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno_5.jpg"
        },
        {
         nombre: "Desayuno de Cumpleaños",
@@ -405,16 +402,22 @@
         imagen: "img/cumpleaños 4.jpg"
        },
         {
-        nombre: "Desayuno Fresco",
+        nombre: "Desayuno para Papá",
         precio: 240,
         descripcion: "Un detalle muy dulce.",
         imagen: "img/desayuno_2.jpg"
        },
         {
-        nombre: "Desayuno Amigable",
+        nombre: "Desayuno para Papá",
         precio: 240,
         descripcion: "Un detalle muy dulce.",
         imagen: "img/desayuno_3.jpg"
+       },
+        {
+        nombre: "Desayuno para Papá",
+        precio: 240,
+        descripcion: "Un detalle muy dulce.",
+        imagen: "img/desayuno_5.jpg"
        },
        {
         nombre: "Desayuno para Mamá",
@@ -471,91 +474,131 @@
         imagen: "img/eventos.jpg"
        },
        {
-        nombre: "Soda Italiana",
-        precio: 50,
+        nombre: "Soda Italiana de Fresa",
+        precio: 45,
         descripcion: "Rica soda burbujeante sabor fresa.",
         imagen: "img/bebida 1.jpg"
        },
        {
-        nombre: "Soda Italiana",
-        precio: 50,
-        descripcion: "Rica soda burbujenate sabor fresa",
-        imagen: "img/bebida 2.jpg"
-       },
-       {
-        nombre: "Soda Italiana",
-        precio: 50,
+        nombre: "Soda Italiana de Manzana",
+        precio: 45,
         descripcion: "Rica soda burbujenate sabor manzana",
         imagen: "img/bebida 10.jpg"
        },
+        {
+        nombre: "Café Americano",
+        precio: 40,
+        descripcion: "El clásico e indispensable café negro, balanceado y aromático.",
+        imagen: "img/cafe.jpg"
+       },
+       {
+        nombre: "Café Espresso",
+        precio: 25,
+        descripcion: "Corto, intenso y con mucha energía en cada sorbo.",
+        imagen: "img/cafe.jpg"
+       },
+       {
+        nombre: "Café Lechero",
+        precio: 45,
+        descripcion: "Tradicional y reconfortante combinación de café con leche cremosa.",
+        imagen: "img/cafe.jpg"
+       },
        {
         nombre: "Capuchino",
-        precio: 70,
-        descripcion: "Delicioso capuchino.",
-        imagen: "img/bebida 3.jpg"
+        precio: 65,
+        descripcion: "Equilibrio perfecto entre espresso, leche vaporizada y espuma densa.",
+        imagen: "img/capuchino.jpg"
        },
        {
-        nombre: "Cafe",
-        precio: 70,
-        descripcion: "Delicioso cafe.",
-        imagen: "img/bebida cafe.jpg"
+        nombre: "Café Capuchino",
+        precio: 65,
+        descripcion: "Todo el sabor y la espuma de un capuchino, pero en una versión refrescante y helada.",
+        imagen: "img/capuchino caliente.jpg"
        },
        {
-        nombre: "Frappe de Moka",
-        precio: 70,
-        descripcion: "Delicioso Frappe de moka.",
-        imagen: "img/bebida moka.jpg"
+        nombre: "Café Capuchino con Sabor",
+        precio: 55,
+        descripcion: "Nuestro capuchino clásico con un toque dulce de tu jarabe favorito",
+        imagen: "img/capuchino caliente.jpg"
+       },
+       {
+        nombre: "Café Latte",
+        precio: 25,
+        descripcion: "Suave, ligero y con mayor porción de leche vaporizada.",
+        imagen: "img/late.jpg"
+       },
+       {
+        nombre: "Café Late con Sabor",
+        precio: 55,
+        descripcion: "La delicadeza del latte mezclada con un delicioso toque de sabor.",
+        imagen: "img/late con sabor.jpg"
+       },
+       {
+        nombre: "Latte Frio",
+        precio: 50,
+        descripcion: "Tu café con leche de siempre, pero servido bien helado para refrescar el día.",
+        imagen: "img/late.jpg"
+       },
+       {
+        nombre: "Latte Frio de Taro",
+        precio: 65,
+        descripcion: "Una combinación suave, balanceada y con el toque dulce del taro.",
+        imagen: "img/late de taro.jpg"
        },
        {
         nombre: "Frappe de Carlos V",
-        precio: 70,
-        descripcion: "Delicioso Frappe de chocolate carlos v.",
+        precio: 65,
+        descripcion: "Un clásico mexicano transformado en una bebida fría intensamente chocolatosa.",
         imagen: "img/bebida carlos.jpg"
        },
        {
+        nombre: "Frappe de Crema Irlandesa",
+        precio: 65,
+        descripcion: "Elegante y cremosa, con las notas dulces y aromáticas.",
+        imagen: "img/bebida mazapan.jpg"
+       },
+        {
         nombre: "Frappe de Ferrero Rocher",
-        precio: 60,
-        descripcion: "Un frappe dulce y rico.",
+        precio: 65,
+        descripcion: "El sabor del lujo hecho bebida: chocolate premium y avellana en perfecta sintonía.",
         imagen: "img/bebida 9.jpg"
        },
        {
-        nombre: "Frappe de Crema Irlandesa",
-        precio: 70,
-        descripcion: "Delicioso Frappe de Crema Irlandesa.",
-        imagen: "img/bebida mazapan.jpg"
-       },
-       {
         nombre: "Frappe de Gansito",
-        precio: 60,
+        precio: 70,
         descripcion: "Disfruta un delicioso frappe de gansito.",
-        imagen: "img/bebida 6.jpg"
-       },
-       {
-        nombre: "Frappe de Oreo",
-        precio: 60,
-        descripcion: "Rico frappe de oreo, ven a probarlo.",
-        imagen: "img/bebida 7.jpg"
-       },
-       {
-        nombre: "Frappe de Taroo",
-        precio: 60,
-        descripcion: "Rico y nuevo frappe de taroo.",
-        imagen: "img/bebida 8.jpg"
+        imagen: "img/Bebida 6.jpg"
        },
        {
         nombre: "Frappe de Mazapan",
-        precio: 60,
-        descripcion: "Rico frappe de mazapan super frio y muy rico.",
+        precio: 65,
+        descripcion: "Un homenaje a la nostalgia; súper cremoso y con el auténtico sabor al dulce de cacahuate.",
         imagen: "img/mazapan.jpg"
-       }
+       },
+       {
+        nombre: "Frappe de Moka",
+        precio: 65,
+        descripcion: "La combinación celestial de espresso, leche fría y un toque irresistible de chocolate.",
+        imagen: "img/bebida moka.jpg"
+       },
+       {
+        nombre: "Frappe de Oreo",
+        precio: 65,
+        descripcion: "Una explosión cremosa cargada de trocitos de la galleta favorita de todos.",
+        imagen: "img/bebida 7.jpg"
+       },
+       {
+        nombre: "Frappe de Taro",
+        precio: 65,
+        descripcion: "Una bebida cremosa, de un lindo tono morado y con ese sabor dulce y exótico tan característico.",
+        imagen: "img/bebida 8.jpg"
+       },
     ];
 
-    /* ---------- Estado y persistencia ---------- */
     let carrito = JSON.parse(localStorage.getItem("miga_cart") || "[]");
     let usuarioActual = null;
     let isAdmin = false;
 
-    /* ---------- Utils ---------- */
     function showToast(msg, timeout = 2000) {
       const t = document.getElementById("toast");
       t.textContent = msg;
@@ -576,7 +619,6 @@
 
       generarMenu();
       actualizarCarritoUI();
-      renderAdminOrders();
     }
 
     document.getElementById("btn-login").addEventListener("click", () => {
@@ -621,11 +663,13 @@
     /* ---------- Generar catálogo ---------- */
     function generarMenu() {
       const postresCont = document.getElementById("postres-lista");
-      const bebidasCont = document.getElementById("bebidas-lista");
+      const bebidasCalientesCont = document.getElementById("bebidas-calientes-lista");
+      const bebidasFriasCont = document.getElementById("bebidas-frias-lista");
       const desayunosCont = document.getElementById("desayunos-lista");
 
       postresCont.innerHTML = "";
-      bebidasCont.innerHTML = "";
+      bebidasCalientesCont.innerHTML = "";
+      bebidasFriasCont.innerHTML = "";
       desayunosCont.innerHTML = "";
 
       postres.forEach((p,index)=>{
@@ -642,8 +686,21 @@
           </div>
         `;
 
-        if(p.nombre.includes("Frappe") || p.nombre.includes("Capuchino") || p.nombre.includes("Soda")){
-          bebidasCont.appendChild(card);
+        if(p.nombre.includes("Frappe") || p.nombre.includes("Capuchino") || p.nombre.includes("Soda") || p.nombre.includes("Latte")|| p.nombre.includes("Café")){
+          const esCaliente = p.nombre.toLowerCase().includes("caliente") || 
+                            p.nombre === "Café Americano" || 
+                            p.nombre === "Café Espresso" || 
+                            p.nombre === "Café Lechero" || 
+                            p.nombre === "Café Latte" || 
+                            p.nombre === "Café Late con Sabor" ||
+                            p.nombre === "Café Capuchino" || 
+                            p.nombre === "Café Capuchino con Sabor";
+          
+          if(esCaliente) {
+            bebidasCalientesCont.appendChild(card);
+          } else {
+            bebidasFriasCont.appendChild(card);
+          }
         } else if(p.nombre.includes("Desayuno") || p.nombre.includes("Eventos")){
           desayunosCont.appendChild(card);
         } else {
@@ -651,30 +708,21 @@
         }
       });
 
-      // Actualizar contador de items en admin
       if(document.getElementById("admin-total-items")) {
         document.getElementById("admin-total-items").textContent = postres.length;
       }
     }
 
-    /* ========= CAMBIAR CATEGORIAS ========= */
     function mostrarCategoria(categoria){
       document.getElementById("postres-section").classList.add("hidden");
       document.getElementById("bebidas-section").classList.add("hidden");
       document.getElementById("desayunos-section").classList.add("hidden");
 
-      if(categoria === "postres"){
-        document.getElementById("postres-section").classList.remove("hidden");
-      }
-      if(categoria === "bebidas"){
-        document.getElementById("bebidas-section").classList.remove("hidden");
-      }
-      if(categoria === "desayunos"){
-        document.getElementById("desayunos-section").classList.remove("hidden");
-      }
+      if(categoria === "postres") document.getElementById("postres-section").classList.remove("hidden");
+      if(categoria === "bebidas") document.getElementById("bebidas-section").classList.remove("hidden");
+      if(categoria === "desayunos") document.getElementById("desayunos-section").classList.remove("hidden");
     }
 
-    /* ---------- Carrito: agregar / actualizar / eliminar ---------- */
     function guardarCarrito() {
       localStorage.setItem("miga_cart", JSON.stringify(carrito));
       actualizarCarritoUI();
@@ -728,7 +776,6 @@
       document.getElementById("total").textContent = `Total: $${total}`;
       localStorage.setItem("miga_cart", JSON.stringify(carrito));
 
-      // Asignación de delegación de eventos en el carrito
       lista.querySelectorAll(".qty-btn").forEach(b => b.addEventListener("click", (e) => {
         const i = parseInt(b.dataset.idx, 10), d = parseInt(b.dataset.delta, 10);
         cambiarCantidad(i, d);
@@ -741,8 +788,6 @@
         const i = parseInt(btn.dataset.remove, 10);
         eliminarItem(i);
       }));
-
-      renderAdminOrders();
     }
 
     function setCantidadFromInput(idx, value) {
@@ -772,7 +817,7 @@
       showToast("Carrito vaciado");
     }
 
-    /* ---------- FINALIZAR COMPRA (MODAL DINÁMICO) ---------- */
+    /* ---------- FINALIZAR COMPRA ---------- */
     function finalizarCompra(){
       if(carrito.length === 0){
           showToast("Tu carrito está vacío");
@@ -792,9 +837,10 @@
       items.innerHTML = html;
       document.getElementById("checkout-total").innerHTML = `Total: $${total}`;
 
-      // Mostrar el modal y resetear la opción visible a transferencia por defecto
       modal.classList.remove("hidden");
-      document.getElementById("metodo-pago-selector").value = "transferencia";
+      
+      const metodoRapido = document.getElementById("metodo-pago").value;
+      document.getElementById("metodo-pago-selector").value = metodoRapido;
       seleccionarMetodoPago();
     }
 
@@ -802,146 +848,21 @@
       document.getElementById("checkout-modal").classList.add("hidden");
     }
 
-    /* INTERRUPTOR: Alterna entre Transferencia BBVA y Mercado Pago */
+    /* INTERRUPTOR DE INTERFAZ DINÁMICA (Efectivo / Transferencia) */
     function seleccionarMetodoPago() {
       const metodo = document.getElementById("metodo-pago-selector").value;
-      const seccionTransferencia = document.getElementById("seccion-transferencia");
-      const seccionMercadoPago = document.getElementById("seccion-mercadopago");
+      const datosBanco = document.getElementById("datos-banco-bbva");
+      const notaEfectivo = document.getElementById("nota-efectivo");
+
+      datosBanco.style.display = "none";
+      notaEfectivo.style.display = "none";
 
       if (metodo === "transferencia") {
-        seccionTransferencia.classList.remove("hidden");
-        seccionMercadoPago.classList.add("hidden");
-      } else if (metodo === "tarjeta") {
-        seccionTransferencia.classList.add("hidden");
-        seccionMercadoPago.classList.remove("hidden");
-        
-        // Pide las credenciales de preferencia y renderiza el botón de Mercado Pago
-        generarBotonMercadoPago();
+        datosBanco.style.display = "block";
+      } else if (metodo === "efectivo") {
+        notaEfectivo.style.display = "block";
       }
     }
-
-    /* LLAMADO AL BACKEND (SERVER.JS) PARA GENERAR EL BOTÓN AZUL */
-    /* LLAMADO AL BACKEND (SERVER.JS) PARA GENERAR EL BOTÓN AZUL */
-function generarBotonMercadoPago() {
-  document.getElementById("wallet_container").innerHTML = "<p>Cargando botón de pago seguro...</p>";
-
-  // CAMBIA ESTA LÍNEA agregando http://localhost:3000
-  fetch("http://localhost:3000/create_preference", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ items: carrito })
-  })
-  .then(response => response.json())
-  .then(preference => {
-    document.getElementById("wallet_container").innerHTML = ""; // Quitar mensaje de carga
-    
-    // Generar el Brick oficial de Mercado Pago
-    mp.bricks().create("wallet", "wallet_container", {
-      initialization: {
-        preferenceId: preference.id,
-      },
-      customization: {
-        texts: {
-          valueProp: 'smart_option',
-        },
-      },
-    });
-  })
-  .catch(error => {
-    console.error("Error:", error);
-    document.getElementById("wallet_container").innerHTML = "<p style='color:red;'>Error al cargar Mercado Pago</p>";
-  });
-}
-
-    /* CONFIRMAR PAGO MANUAL (WHATSAPP) */
-    function confirmarPago(){
-      const nombre = document.getElementById("cliente-nombre").value.trim();
-      const telefono = document.getElementById("cliente-telefono").value.trim();
-      const direccion = document.getElementById("cliente-direccion").value.trim();
-      const metodoEntrega = document.getElementById("metodo-entrega").value;
-      const comprobante = document.getElementById("comprobante").files[0];
-
-      if(!nombre || !telefono || !direccion){
-          showToast("Completa todos los datos");
-          return;
-      }
-
-      if(!comprobante){
-          showToast("Debes subir tu comprobante de pago");
-          return;
-      }
-
-      let total = 0;
-      let resumen = "";
-
-      carrito.forEach(item=>{
-          const subtotal = item.precio * item.cantidad;
-          total += subtotal;
-          resumen += `• ${item.nombre}\nCantidad: ${item.cantidad}\nSubtotal: $${subtotal}\n\n`;
-      });
-
-      const mensaje = `*NUEVO PEDIDO - MIGA Y CREMA*\n\nCliente:\n${nombre}\n\nTeléfono:\n${telefono}\n\nDirección:\n${direccion}\n\nEntrega:\n${metodoEntrega}\n\nPedido:\n${resumen}\nTOTAL:\n$${total}\n\nEl cliente indicó que ya realizó la transferencia y adjuntó comprobante.\n\nConfirmar de Recibido`;
-      const numeroVendedor = "522321237364";
-      const url = `https://wa.me/${numeroVendedor}?text=${encodeURIComponent(mensaje)}`;
-
-      // Guardar pedido local
-      const pedidos = JSON.parse(localStorage.getItem("miga_orders") || "[]");
-      pedidos.push({
-          id: Date.now(),
-          cliente: nombre,
-          telefono,
-          direccion,
-          total,
-          fecha: new Date().toISOString(),
-          items: carrito
-      });
-
-      localStorage.setItem("miga_orders", JSON.stringify(pedidos));
-
-      carrito = [];
-      guardarCarrito();
-      cerrarCheckout();
-      window.open(url,"_blank");
-      showToast("Pedido enviado correctamente");
-    }
-
-    /* ---------- LOGS Y RENDER DE HISTORIAL LOCAL ---------- */
-    function registroPedidoLocal(info) {
-      const logs = JSON.parse(localStorage.getItem("miga_logs") || "[]");
-      logs.push(info);
-      localStorage.setItem("miga_logs", JSON.stringify(logs));
-    }
-
-    function renderAdminOrders() {
-      const pedidos = JSON.parse(localStorage.getItem("miga_orders") || "[]");
-      if(document.getElementById("admin-carritos")) {
-        document.getElementById("admin-carritos").textContent = pedidos.length;
-      }
-      
-      const tbody = document.getElementById("orders-tbody");
-      if(tbody) {
-        tbody.innerHTML = "";
-        pedidos.forEach((p, index) => {
-          const tr = document.createElement("tr");
-          tr.innerHTML = `
-            <td>${index + 1}</td>
-            <td>${p.cliente || "Anónimo"}</td>
-            <td>${new Date(p.fecha).toLocaleDateString()}</td>
-            <td>${p.metodo || "Transferencia"}</td>
-            <td><strong>$${p.total}</strong></td>
-            <td><button class="btn-small" onclick="alert('Detalle del pedido de ${p.cliente}')">Ver</button></td>
-          `;
-          tbody.appendChild(tr);
-        });
-      }
-    }
-
-    document.getElementById("btn-clear-orders")?.addEventListener("click", () => {
-      if(confirm("¿Limpiar historial local de pedidos?")) {
-        localStorage.setItem("miga_orders", "[]");
-        renderAdminOrders();
-      }
-    });
   </script>
 </body>
 </html>
