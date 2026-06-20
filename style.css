@@ -234,6 +234,93 @@ body {
   border: 1px solid #ddd;
 }
 
+
+/* ==========================================================================
+       CARRUSEL ESTILO BANNER COMERCIAL CON PAGINACIÓN
+       ========================================================================== */
+    .carrusel-wrapper {
+      max-width: 1000px;
+      margin: 20px auto 40px auto;
+      padding: 0 15px;
+      position: relative;
+    }
+    .carrusel-container {
+      position: relative;
+      width: 100%;
+      height: 380px; /* Proporción ideal para banners alargados tipo tienda oficial */
+      overflow: hidden;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    .carrusel-track {
+      display: flex;
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      width: 100%;
+      height: 100%;
+    }
+    .carrusel-slide {
+      min-width: 100%;
+      height: 100%;
+    }
+    .carrusel-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Ajusta tus imágenes al rectángulo sin deformarlas */
+      display: block;
+    }
+    .carrusel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      color: #333;
+      border: none;
+      width: 45px;
+      height: 45px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s, background 0.2s;
+      z-index: 10;
+    }
+    .carrusel-btn:hover {
+      background: #f5f5f5;
+      transform: translateY(-50%) scale(1.05);
+    }
+    .carrusel-btn.prev { left: 30px; }
+    .carrusel-btn.next { right: 30px; }
+    
+    /* Indicadores de bolitas (Dots) abajo */
+    .carrusel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 15px;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #dbdbdb;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .dot.active {
+      background: #a2214c; /* Tu color de marca principal */
+      transform: scale(1.2);
+    }
+
+    /* Adaptación perfecta a pantallas móviles */
+    @media (max-width: 768px) {
+      .carrusel-container { height: 180px; } /* Altura reducida en celulares */
+      .carrusel-btn { width: 35px; height: 35px; font-size: 0.9rem; }
+      .carrusel-btn.prev { left: 20px; }
+      .carrusel-btn.next { right: 20px; }
+    }
 /* ==========================================================================
    4. HEADER & NAV
    ========================================================================== */
