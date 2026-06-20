@@ -1,5 +1,5 @@
 // ==========================================================================
-// CONTROL DEL CARRUSEL DE BANNERS (MIGA Y CREMA)
+// SISTEMA AUTOMÁTICO Y MANUAL DEL CARRUSEL (MIGA Y CREMA)
 // ==========================================================================
 let slideActual = 0;
 let autoPlayCarrusel;
@@ -9,8 +9,9 @@ function mostrarSlide(idx) {
   const slides = document.querySelectorAll(".carrusel-slide");
   const dots = document.querySelectorAll(".dot");
   
-  if (!track || slides.length === 0) return; // Medida de seguridad por si no carga el DOM
+  if (!track || slides.length === 0) return;
 
+  // Lógica cíclica infinita
   if (idx >= slides.length) {
     slideActual = 0;
   } else if (idx < 0) {
@@ -19,10 +20,10 @@ function mostrarSlide(idx) {
     slideActual = idx;
   }
 
-  // Mueve el riel de imágenes al porcentaje correspondiente
+  // Mueve el contenedor horizontalmente usando porcentajes exactos
   track.style.transform = `translateX(-${slideActual * 100}%)`;
 
-  // Sincroniza y enciende la bolita activa
+  // Cambia el estado visual de la bolita activa inferior
   dots.forEach((dot, i) => {
     if (dot) {
       dot.classList.toggle("active", i === slideActual);
@@ -43,7 +44,7 @@ function irAlSlide(idx) {
 function iniciarAutoPlay() {
   autoPlayCarrusel = setInterval(() => {
     cambiarSlide(1);
-  }, 5000); // Cambia automáticamente de banner cada 5 segundos
+  }, 4000); // Cambia automáticamente de imagen cada 4 segundos
 }
 
 function reiniciarAutoPlay() {
@@ -51,8 +52,13 @@ function reiniciarAutoPlay() {
   iniciarAutoPlay();
 }
 
-// Inicializa el carrusel automáticamente al cargar la aplicación
-document.addEventListener("DOMContentLoaded", () => {
+// ARRANQUE FORZADO: Esto activa el movimiento al momento de abrir la web
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", () => {
+    mostrarSlide(0);
+    iniciarAutoPlay();
+  });
+} else {
   mostrarSlide(0);
   iniciarAutoPlay();
-});
+}
