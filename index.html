@@ -99,30 +99,23 @@
       </nav>
     </header>
 
-    <main>
-      <!-- NUEVO: Carrusel de Anuncios / Promociones -->
-      <section class="carrusel-container" id="inicio">
-        <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
-        <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
-        
-        <div class="carrusel-track" id="carruselTrack">
-          <!-- Anuncio 1 -->
-          <div class="carrusel-slide">
-            <img src="img/chocoflan.jpg" alt="Anuncio 1">
-            <div class="carrusel-caption">✨ ¡Prueba nuestro delicioso Chocoflan recién horneado! ✨</div>
-          </div>
-          <!-- Anuncio 2 -->
-          <div class="carrusel-slide">
-            <img src="img/desayuno_6.jpg" alt="Anuncio 2">
-            <div class="carrusel-caption">📅 Recuerda ordenar tus Desayunos Sorpresa con 2 días de anticipación.</div>
-          </div>
-          <!-- Anuncio 3 -->
-          <div class="carrusel-slide">
-            <img src="img/bebida 5.jpg" alt="Anuncio 3">
-            <div class="carrusel-caption">🥤 Acompaña tus tardes con nuestra variedad de Frappés y Sodas Italianas.</div>
+    <div class="carrusel-wrapper" id="inicio">
+        <div class="carrusel-container">
+          <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
+          <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
+          
+          <div class="carrusel-track" id="carruselTrack">
+            <div class="carrusel-slide"><img src="img/anuncio1.jpg" alt="Promoción 1"></div>
+            <div class="carrusel-slide"><img src="img/anuncio2.jpg" alt="Promoción 2"></div>
+            <div class="carrusel-slide"><img src="img/anuncio3.jpg" alt="Promoción 3"></div>
           </div>
         </div>
-      </section>
+        <div class="carrusel-dots" id="carruselDots">
+          <span class="dot active" onclick="irAlSlide(0)"></span>
+          <span class="dot" onclick="irAlSlide(1)"></span>
+          <span class="dot" onclick="irAlSlide(2)"></span>
+        </div>
+      </div>
     
     <main>
       <section class="conoce" id="conoce">
