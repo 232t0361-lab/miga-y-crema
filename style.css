@@ -468,7 +468,39 @@ body {
 
 }
 
+.historias-container {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto; /* Permite deslizar a los lados en móvil */
+  padding: 10px;
+  scrollbar-width: none; /* Oculta la barra de scroll fea */
+}
 
+.historia-item {
+  text-align: center;
+  flex-shrink: 0; /* Evita que los círculos se aplasten */
+  font-family: sans-serif;
+  font-size: 12px;
+}
+
+.circulo-borde {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  padding: 3px; /* Espacio para el borde rosa/repostero */
+  background: linear-gradient(45deg, #ff9a9e, #fecfef, #feada6); /* Degradado estilo postres */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.circulo-borde img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid white; /* Línea blanca de separación */
+}
 
 /* ==========================================================================
    CARRUSEL BANNER - CORRECCIÓN DE FLUJO Y DESLIZAMIENTO
