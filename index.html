@@ -927,5 +927,59 @@
       }
     }
   </script>
+  <script>
+    (function() {
+      let slideActual = 0;
+      let autoPlayCarrusel;
+
+      function mostrarSlide(idx) {
+        const track = document.getElementById("carruselTrack");
+        const slides = document.querySelectorAll(".carrusel-slide");
+        const dots = document.querySelectorAll(".dot");
+        
+        if (!track || slides.length === 0) return;
+
+        if (idx >= slides.length) { slideActual = 0; }
+        else if (idx < 0) { slideActual = slides.length - 1; }
+        else { slideActual = idx; }
+
+        track.style.transform = `translateX(-${slideActual * 100}%)`;
+
+        dots.forEach((dot, i) => {
+          if (dot) dot.classList.toggle("active", i === slideActual);
+        });
+      }
+
+      // Hacer las funciones accesibles para los botones del HTML (onclick)
+      window.cambiarSlide = function(delta) {
+        mostrarSlide(slideActual + delta);
+        reiniciarAutoPlay();
+      }
+
+      window.irAlSlide = function(idx) {
+        mostrarSlide(idx);
+        reiniciarAutoPlay();
+      }
+
+      function iniciarAutoPlay() {
+        autoPlayCarrusel = setInterval(() => {
+          window.cambiarSlide(1);
+        }, 4000); // Se mueve solo cada 4 segundos
+      }
+
+      function reiniciarAutoPlay() {
+        clearInterval(autoPlayCarrusel);
+        iniciarAutoPlay();
+      }
+
+      // Arrancar el carrusel de inmediato en cuanto cargue la estructura
+      window.addEventListener("load", () => {
+        mostrarSlide(0);
+        iniciarAutoPlay();
+      });
+    })();
+  </script>
+</body>
+</html>
 </body>
 </html>
