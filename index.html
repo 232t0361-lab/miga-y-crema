@@ -99,27 +99,98 @@
       </nav>
     </header>
 
-    <div class="historias-container">
+  <style>
+  /* Contenedor principal que alinea todo horizontalmente */
+  .historias-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px 15px;
+    overflow-x: auto; /* Permite deslizar en móviles */
+    scrollbar-width: none; /* Oculta la barra de scroll fea en Firefox */
+    background-color: #fffaf7; /* Un fondo crema muy sutil */
+  }
+
+  /* Oculta la barra de scroll en Chrome/Safari */
+  .historias-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Cada burbuja de historia */
+  .historia-item {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  /* El borde circular con los colores de "Miga y Crema" */
+  .circulo-borde {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    /* Degradado cálido: rosa pastel, crema y un toque tostado de miga */
+    background: linear-gradient(45deg, #fbc5d8, #fedcc4, #e8be9c); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+    transition: transform 0.2s ease;
+  }
+
+  /* Efecto sutil al pasar el mouse */
+  .historia-item:hover .circulo-borde {
+    transform: scale(1.05);
+  }
+
+  /* La foto del postre dentro del círculo */
+  .circulo-borde img {
+    width: 77px;
+    height: 77px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white; /* El anillo blanco divisor */
+  }
+
+  /* El texto debajo de cada círculo */
+  .historia-item span {
+    font-family: 'Montserrat', sans-serif; /* O la tipografía limpia que uses */
+    font-size: 13px;
+    color: #4a3b32; /* Un tono café/chocolate oscuro en lugar de negro puro */
+    font-weight: 500;
+  }
+</style>
+
+<!-- ESTRUCTURA HTML -->
+<div class="historias-container">
   
-  <!-- Historia 1 -->
+  <!-- Historia 1: Pasteles -->
   <div class="historia-item">
     <div class="circulo-borde">
-      <img src="menú de pasteles.png" alt="Pasteles">
+      <!-- RECUERDA: Cambia este enlace por el link real de tu foto de pasteles -->
+      <img src="TU_ENLACE_AQUÍ" alt="Pasteles">
     </div>
     <span>Pasteles</span>
   </div>
 
-  <!-- Historia 2 -->
+  <!-- Historia 2: Cheesecakes -->
   <div class="historia-item">
     <div class="circulo-borde">
-      <img src="mini_cheescake.jpg" alt="Cheescake">
+      <!-- RECUERDA: Cambia este enlace por el link real de tu foto de cheesecake -->
+      <img src="TU_ENLACE_AQUÍ" alt="Cheesecakes">
     </div>
-    <span>Cheescake</span>
+    <span>Cheesecakes</span>
   </div>
 
-  <!-- Puedes repetir esto para "Pedidos", "Clientes", etc. -->
-</div>
+  <!-- Historia 3: Procesos (¡Súper recomendado para "Miga y Crema"!) -->
+  <div class="historia-item">
+    <div class="circulo-borde">
+      <img src="TU_ENLACE_AQUÍ" alt="Procesos">
+    </div>
+    <span>El Taller</span>
+  </div>
 
+</div>
     
     <main>
       <section class="conoce" id="conoce">
