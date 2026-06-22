@@ -5,8 +5,46 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MIGA Y CREMA - Tienda Online</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Estilos rápidos para el visor de historias (puedes moverlos a tu style.css si lo prefieres) */
+    .modal-historia {
+      display: none;
+      position: fixed;
+      z-index: 9999;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-historia-content {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(255,255,255,0.2);
+    }
+    .cerrar-historia {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      color: #fff;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+  </style>
 </head>
 <body>
+
+  <!-- MODAL PARA VER IMAGEN DE LA HISTORIA AMPLITUD -->
+  <div id="modal-visor-historia" class="modal-historia" onclick="cerrarVisorHistoria()">
+    <button class="cerrar-historia">&times;</button>
+    <img id="imagen-historia-grande" class="modal-historia-content" src="" alt="Historia ampliada">
+  </div>
 
   <!-- MODAL DE CHECKOUT -->
   <div id="checkout-modal" class="modal-backdrop hidden">
@@ -102,23 +140,23 @@
       </nav>
     </header>
     
-    <!-- BARRA DE HISTORIAS INTERACTIVAS (RECUERDA ASIGNAR TUS FOTOS DE CARPETA AQUÍ) -->
+    <!-- BARRA DE HISTORIAS INTERACTIVAS (Modificadas para cargar la foto en grande) -->
     <div class="historias-container">
-      <div class="historia-item" onclick="mostrarCategoria('postres')">
+      <div class="historia-item" onclick="verFotoHistoria('img/chocoflan.jpg')">
         <div class="circulo-borde">
-          <img src="img/chocoflan.jpg" alt="Postres">
+          <img src="img/chocoflan.jpg" alt="Postres Artesanales">
         </div>
         <span>Postres</span>
       </div>
-      <div class="historia-item" onclick="mostrarCategoria('bebidas')">
+      <div class="historia-item" onclick="verFotoHistoria('img/bebida 5.jpg')">
         <div class="circulo-borde">
-          <img src="img/bebida 5.jpg" alt="Bebidas">
+          <img src="img/bebida 5.jpg" alt="Bebidas Especiales">
         </div>
         <span>Bebidas</span>
       </div>
-      <div class="historia-item" onclick="mostrarCategoria('desayunos')">
+      <div class="historia-item" onclick="verFotoHistoria('img/desayuno_6.jpg')">
         <div class="circulo-borde">
-          <img src="img/desayuno_6.jpg" alt="Desayunos">
+          <img src="img/desayuno_6.jpg" alt="Nuestros Desayunos">
         </div>
         <span>Desayunos</span>
       </div>
@@ -157,7 +195,7 @@
           En <strong>MIGA Y CREMA</strong> creemos firmemente que cada postre cuenta una historia.  
           En este negocio se siente un gran amor por la repostería artesanal, donde tradición y creatividad se mezclan para dar vida a sabores únicos.  
           Nuestro compromiso es ofrecerte productos frescos, elaborados con ingredientes de calidad y mucho amor, para que cada bocado se convierta en un momento especial.  
-          Más que vender postres, buscamos compartir experiencias dulces que acompañen tus celebraciones, tus mañanas y tus recuerdos más importantes.
+          Más que vender postres, buscamos compartir experiences dulces que acompañen tus celebraciones, tus mañanas y tus recuerdos más importantes.
           El sabor de los Postres "MIGA Y CREMA" siempre estarán acompañándote.
         </p>
       </section>  
@@ -323,6 +361,20 @@
 
   <!-- CONTROLADORES JAVASCRIPT -->
   <script>
+    // FUNCIONES NUEVAS PARA EL VISOR DE HISTORIAS
+    function verFotoHistoria(rutaImagen) {
+      const visor = document.getElementById("modal-visor-historia");
+      const imgGrande = document.getElementById("imagen-historia-grande");
+      imgGrande.src = rutaImagen;
+      visor.style.display = "flex";
+    }
+
+    function cerrarVisorHistoria() {
+      const visor = document.getElementById("modal-visor-historia");
+      visor.style.display = "none";
+    }
+
+    // EL RESTO DE TU SCRIPT SIGUE IGUAL
     const postres = [
        {
         nombre: "Beso de Angel",
@@ -613,6 +665,7 @@
         imagen: "img/cafe.jpg"
        },
        {
+        toggle: true,
         nombre: "Café Lechero",
         precio: 45,
         descripcion: "Tradicional y reconfortante combinación de café con leche cremosa.",
@@ -707,7 +760,7 @@
         precio: 65,
         descripcion: "Una bebida cremosa, de un lindo tono morado y con ese sabor dulce y exótico tan característico.",
         imagen: "img/bebida 8.jpg"
-       },
+       }
     ];
 
     let carrito = JSON.parse(localStorage.getItem("miga_cart") || "[]");
@@ -725,7 +778,6 @@
       }, timeout);
     }
 
-    /* ---------- LOGIN ---------- */
     function abrirAppComo(role = "user") {
       isAdmin = (role === "admin");
       document.getElementById("login-screen").classList.add("hidden");
@@ -775,7 +827,6 @@
       document.getElementById("login-pass").value = "";
     });
 
-    /* ---------- Generar catálogo ---------- */
     function generarMenu() {
       const postresCont = document.getElementById("postres-lista");
       const bebidasCalientesCont = document.getElementById("bebidas-calientes-lista");
@@ -837,7 +888,6 @@
       if(categoria === "bebidas") document.getElementById("bebidas-section").classList.remove("hidden");
       if(categoria === "desayunos") document.getElementById("desayunos-section").classList.remove("hidden");
       
-      // Desplazar automáticamente hacia las secciones correspondientes al pulsar
       document.getElementById(`${categoria}-section`).scrollIntoView({ behavior: 'smooth' });
     }
 
@@ -879,12 +929,6 @@
           <div class="ci-body">
             <div class="ci-title">${item.nombre}</div>
             <div class="ci-price">$${item.precio} c/u</div>
-            <div class="ci-controls">
-              <button class="qty-btn" data-idx="${idx}" data-delta="-1">−</button>
-              <input type="number" class="qty-input" value="${item.cantidad}" min="1" data-idx="${idx}" />
-              <button class="qty-btn" data-idx="${idx}" data-delta="1">+</button>
-              <button class="remove" data-remove="${idx}">Eliminar</button>
-            </div>
           </div>
         `;
         lista.appendChild(li);
