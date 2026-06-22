@@ -502,6 +502,79 @@ body {
   border: 2px solid white; /* Línea blanca de separación */
 }
 
+/* CONTENEDOR PRINCIPAL DE HISTORIAS DE INSTAGRAM */
+    .historias-container {
+      display: flex;
+      gap: 18px;
+      padding: 16px 12px;
+      overflow-x: auto;
+      background-color: #fff;
+      border-bottom: 1px solid #dbdbdb;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      scrollbar-width: none; /* Oculta barra en Firefox */
+    }
+    .historias-container::-webkit-scrollbar {
+      display: none; /* Oculta barra en Chrome/Safari */
+    }
+
+    /* ITEM INDIVIDUAL */
+    .historia-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      width: 74px;
+      flex-shrink: 0;
+      user-select: none;
+    }
+
+    /* EL ANILLO DE GRADIENTE TIPO INSTAGRAM */
+    .circulo-borde {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.1s ease;
+      padding: 2.5px; /* Grosor del anillo de color */
+      box-sizing: border-box;
+    }
+
+    /* CUANDO LA HISTORIA YA FUE VISTA (Se cambia con JavaScript) */
+    .historia-item.vista .circulo-borde {
+      background: #dbdbdb; /* Gris de Instagram para historias leídas */
+    }
+
+    /* Pequeña animación al mantener pulsado */
+    .historia-item:active .circulo-borde {
+      transform: scale(0.95);
+    }
+
+    /* LA IMAGEN INTERNA CON EL BORDE BLANCO */
+    .circulo-borde img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #fff; /* Espacio en blanco de separación */
+      background-color: #fff;
+      box-sizing: border-box;
+    }
+
+    /* TEXTO DEBAJO DE LA HISTORIA */
+    .historia-item span {
+      font-size: 11px;
+      color: #262626;
+      margin-top: 6px;
+      text-align: center;
+      width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis; /* Corta textos largos con "..." */
+    }
+
 /* ==========================================================================
    CARRUSEL BANNER - CORRECCIÓN DE FLUJO Y DESLIZAMIENTO
    ========================================================================== */
