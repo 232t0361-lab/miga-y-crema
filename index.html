@@ -5,69 +5,44 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>MIGA Y CREMA - Tienda Online</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Estilos rápidos para el visor de historias (puedes moverlos a tu style.css si lo prefieres) */
-    .modal-historia {
-      display: none;
-      position: fixed;
-      z-index: 9999;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      justify-content: center;
-      align-items: center;
-    }
-    .modal-historia-content {
-      max-width: 90%;
-      max-height: 80vh;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(255,255,255,0.2);
-    }
-    .cerrar-historia {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      color: #fff;
-      font-size: 35px;
-      font-weight: bold;
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-  </style>
 </head>
 <body>
 
-<!-- BARRA DE HISTORIAS INTERACTIVAS ESTILO INSTAGRAM -->
-    <div class="historias-container">
-      <!-- Historia 1: Postres -->
-      <div class="historia-item" onclick="verGaleriaHistoria(this, ['img/chocoflan.jpg', 'img/mini_cheescake.jpg', 'img/cheescake_zarzamora.jpg'])">
-        <div class="circulo-borde">
-          <img src="img/chocoflan.jpg" alt="Postres">
-        </div>
-        <span>Postres</span>
+  <div class="historias-container">
+    <div class="historia-item" onclick="verGaleriaHistoria(this, ['img/chocoflan.jpg', 'img/mini_cheescake.jpg', 'img/cheescake_zarzamora.jpg'])">
+      <div class="circulo-borde">
+        <img src="img/chocoflan.jpg" alt="Postres">
       </div>
-
-      <!-- Historia 2: Bebidas -->
-      <div class="historia-item" onclick="verGaleriaHistoria(this, ['img/bebida 5.jpg', 'img/bebida 1.jpg'])">
-        <div class="circulo-borde">
-          <img src="img/bebida 5.jpg" alt="Bebidas">
-        </div>
-        <span>Bebidas</span>
-      </div>
-
-      <!-- Historia 3: Desayunos -->
-      <div class="historia-item" onclick="verGaleriaHistoria(this, ['img/desayuno_6.jpg', 'img/desayuno_7.jpg', 'img/desayuno_2.jpg'])">
-        <div class="circulo-borde">
-          <img src="img/desayuno_6.jpg" alt="Desayunos">
-        </div>
-        <span>Desayunos</span>
-      </div>
+      <span>Postres</span>
     </div>
 
-  <!-- MODAL DE CHECKOUT -->
+    <div class="historia-item" onclick="verGaleriaHistoria(this, ['img/bebida 5.jpg', 'img/bebida 1.jpg'])">
+      <div class="circulo-borde">
+        <img src="img/bebida 5.jpg" alt="Bebidas">
+      </div>
+      <span>Bebidas</span>
+    </div>
+
+    <div class="historia-item" onclick="verGaleriaHistoria(this, ['img/desayuno_6.jpg', 'img/desayuno_7.jpg', 'img/desayuno_2.jpg'])">
+      <div class="circulo-borde">
+        <img src="img/desayuno_6.jpg" alt="Desayunos">
+      </div>
+      <span>Desayunos</span>
+    </div>
+  </div>
+
+  <div id="modal-visor-historia" class="modal-historia" onclick="cerrarVisorHistoriaExterno(event)">
+    <button class="cerrar-historia" onclick="cerrarVisorHistoria()">&times;</button>
+    
+    <button class="nav-historia prev" onclick="cambiarFotoHistoria(-1)">❮</button>
+    <button class="nav-historia next" onclick="cambiarFotoHistoria(1)">❯</button>
+    
+    <div style="text-align: center; position: relative;">
+      <img id="imagen-historia-grande" class="modal-historia-content" src="" alt="Historia ampliada">
+      <div id="contador-fotos-historia" style="color: white; margin-top: 10px; font-family: sans-serif; font-size: 14px;"></div>
+    </div>
+  </div>
+
   <div id="checkout-modal" class="modal-backdrop hidden">
     <div class="checkout-modal">
       <button class="close-modal" onclick="cerrarCheckout()">✕</button>
@@ -122,10 +97,9 @@
     </div>
   </div>
 
-  <!-- PANTALLA DE LOGIN -->
   <div id="login-screen" class="login-screen">
     <div class="login-card">
-      <img src="img/portada.jpg" alt="Logo Miga y Cream" class="login-logo" />
+      <img src="img/portada.jpg" alt="Portada Miga y Crema" class="login-logo" />
       <h1>Bienvenido a Miga y Crema</h1>
       <p>Inicia sesión para continuar</p>
 
@@ -144,818 +118,64 @@
     </div>
   </div>
 
-  <!-- APLICACIÓN PRINCIPAL -->
-  <div id="main-app" class="hidden">
-    <header>
-      <div class="logo-container">
-        <img src="img/portada.jpg" alt="Logo MIGA Y CREMA" class="logo" />
-        <h1>MIGA Y CREMA</h1>
-      </div>
-
-      <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#conocenos">Conócenos</a>
-        <a href="#menu">Menú</a>
-        <a href="#ubicacion">Ubicación</a>
-        <button id="btn-logout" class="small-ghost">Cerrar sesión</button>
-      </nav>
-    </header>
-    
-    <!-- BARRA DE HISTORIAS INTERACTIVAS (Modificadas para cargar la foto en grande) -->
-    <div class="historias-container">
-      <div class="historia-item" onclick="verFotoHistoria('img/chocoflan.jpg')">
-        <div class="circulo-borde">
-          <img src="img/chocoflan.jpg" alt="Postres Artesanales">
-        </div>
-        <span>Postres</span>
-      </div>
-      <div class="historia-item" onclick="verFotoHistoria('img/bebida 5.jpg')">
-        <div class="circulo-borde">
-          <img src="img/bebida 5.jpg" alt="Bebidas Especiales">
-        </div>
-        <span>Bebidas</span>
-      </div>
-      <div class="historia-item" onclick="verFotoHistoria('img/desayuno_6.jpg')">
-        <div class="circulo-borde">
-          <img src="img/desayuno_6.jpg" alt="Nuestros Desayunos">
-        </div>
-        <span>Desayunos</span>
-      </div>
-    </div>
-
-    <main>
-      <!-- SECCIÓN INICIO (CARRUSEL) -->
-      <section id="inicio" class="carrusel-wrapper">
-        <div class="carrusel-container">
-          <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
-          <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
-          
-          <div class="carrusel-track" id="carruselTrack">
-            <div class="carrusel-slide"><img src="img/menú de pasteles.png" alt="Promoción 1"></div>
-            <div class="carrusel-slide"><img src="img/mini_cheescake.jpg" alt="Promoción 2"></div>
-            <div class="carrusel-slide"><img src="img/desayuno_7.jpg" alt="Promoción 3"></div>
-            <div class="carrusel-slide"><img src="img/desayuno_2.jpg" alt="Promoción 4"></div>
-            <div class="carrusel-slide"><img src="img/desayuno_0.jpg" alt="Promoción 5"></div>
-            <div class="carrusel-slide"><img src="img/desayuno 10.jpg" alt="Promoción 6"></div>
-          </div>
-        </div>
-        <div class="carrusel-dots" id="carruselDots">
-          <span class="dot active" onclick="irAlSlide(0)"></span>
-          <span class="dot" onclick="irAlSlide(1)"></span>
-          <span class="dot" onclick="irAlSlide(2)"></span>
-          <span class="dot" onclick="irAlSlide(3)"></span>
-          <span class="dot" onclick="irAlSlide(4)"></span>
-          <span class="dot" onclick="irAlSlide(5)"></span>
-        </div>
-      </section>
-
-      <!-- SECCIÓN CONÓNENOS -->
-      <section class="conoce" id="conocenos">
-        <h2>Conócenos</h2>
-        <p>
-          En <strong>MIGA Y CREMA</strong> creemos firmemente que cada postre cuenta una historia.  
-          En este negocio se siente un gran amor por la repostería artesanal, donde tradición y creatividad se mezclan para dar vida a sabores únicos.  
-          Nuestro compromiso es ofrecerte productos frescos, elaborados con ingredientes de calidad y mucho amor, para que cada bocado se convierta en un momento especial.  
-          Más que vender postres, buscamos compartir experiences dulces que acompañen tus celebraciones, tus mañanas y tus recuerdos más importantes.
-          El sabor de los Postres "MIGA Y CREMA" siempre estarán acompañándote.
-        </p>
-      </section>  
-
-      <!-- SECCIÓN MENÚ -->
-      <section id="menu" class="menu-visual">
-        <div class="menu-banner">
-          <h2>¿Qué deseas ordenar hoy?</h2>
-          <p>Selecciona una categoría para ver nuestros productos</p>
-        </div>
-
-        <div class="categorias-premium">
-          <div class="categoria-card" onclick="mostrarCategoria('postres')" style="background-image: linear-gradient(to top, rgba(162, 33, 76, 0.95) 20%, rgba(162, 33, 76, 0.2) 100%), url('img/chocoflan.jpg');">
-            <div class="categoria-overlay">
-              <div class="categoria-icon"></div>
-              <h3>Postres</h3>
-              <p>Deliciosos postres artesanales hechos con amor</p>
-              <button class="btn-ver-opciones">Ver opciones <span class="flecha"></span></button>
-            </div>
-          </div>
-
-          <div class="categoria-card" onclick="mostrarCategoria('bebidas')" style="background-image: linear-gradient(to top, rgba(162, 33, 76, 0.95) 20%, rgba(162, 33, 76, 0.2) 100%), url('img/bebida 5.jpg');">
-            <div class="categoria-overlay">
-              <div class="categoria-icon"></div>
-              <h3>Bebidas</h3>
-              <p>Bebidas frías y calientes para todos los gustos</p>
-              <button class="btn-ver-opciones">Ver opciones <span class="flecha"></span></button>
-            </div>
-          </div>
-
-          <div class="categoria-card" onclick="mostrarCategoria('desayunos')" style="background-image: linear-gradient(to top, rgba(162, 33, 76, 0.95) 20%, rgba(162, 33, 76, 0.2) 100%), url('img/desayuno_6.jpg');">
-            <div class="categoria-overlay">
-              <div class="categoria-icon"></div>
-              <h3>Desayunos</h3>
-              <p>Desayunos especiales para cada ocasión</p>
-              <button class="btn-ver-opciones"> Ver opciones <span class="flecha"></span></button>
-            </div>
-          </div>
-        </div>
-
-        <!-- LISTADOS DE PRODUCTOS -->
-        <div id="postres-section" class="categoria-section hidden">
-          <h2 class="categoria-title">Postres Artesanales</h2>
-          <div class="galeria" id="postres-lista"></div>
-        </div>
-
-        <div id="bebidas-section" class="categoria-section hidden">
-          <h2 class="categoria-title">Bebidas</h2>
-          <h3 style="color: #a2214c; margin: 20px 0 10px 10px; font-size: 1.5rem;">Bebidas Calientes</h3>
-          <div class="galeria bebidas-grid" id="bebidas-calientes-lista"></div>
-          <h3 style="color: #a2214c; margin: 30px 0 10px 10px; font-size: 1.5rem;">Bebidas Frías</h3>
-          <div class="galeria bebidas-grid" id="bebidas-frias-lista"></div>
-        </div>
-
-        <div id="desayunos-section" class="categoria-section hidden">
-          <h2 class="categoria-title">Desayunos</h2>
-          <div class="galeria desayunos-grid" id="desayunos-lista"></div>
-        </div>
-
-        <!-- BOTÓN DESCARGAR MENÚ PDF -->
-        <div class="menu-pdf-container" style="text-align: center; margin: 40px 0;">
-          <a href="menú miga_y_crema x dulce_paladar.pdf" download="Menu_Miga_y_Crema.pdf" class="btn-small btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;">
-             Descargar Menú en PDF
-          </a>
-        </div>
-      </section>
-
-      <!-- PANEL DE ADMINISTRACIÓN -->
-      <section id="admin-panel" class="admin-panel hidden">
-        <h2>Panel de Administrador</h2>
-        <p>Bienvenido, administrador. Aquí verás estadísticas y pedidos.</p>
-
-        <div class="admin-cards">
-          <div class="card">
-            <h3>Artículos en catálogo</h3>
-            <p id="admin-total-items">0</p>
-          </div>
-          <div class="card">
-            <h3>Pedidos totales</h3>
-            <p id="admin-carritos">0</p>
-          </div>
-        </div>
-
-        <h3>Pedidos (detallado)</h3>
-        <table class="orders-table" id="orders-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Usuario</th>
-              <th>Fecha</th>
-              <th>Método</th>
-              <th>Total</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody id="orders-tbody"></tbody>
-        </table>
-
-        <div style="margin-top:12px">
-          <button id="btn-clear-orders" class="btn-small btn-ghost">Eliminar historial de pedidos locales</button>
-        </div>
-      </section>
-
-      <!-- SECCIÓN UBICACIÓN Y MAPA -->
-      <section id="ubicacion" class="ubicacion" style="padding:20px 12px;">
-        <h2>Ubicación</h2>
-        <p>Calle Miguel Hidalgo S/N, Misantla, Veracruz</p>
-        <div style="max-width:900px;margin:0 auto" class="mapa-contenedor">
-          <iframe class="mapa" style="width:100%;height:360px;border:0;border-radius:12px" src="https://www.google.com/maps?q=19.94378,-96.84898&z=15&output=embed" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-      </section>
-    </main>
-
-    <!-- PIE DE PÁGINA Y CONTACTO -->
-    <footer>
-      <h2>Contáctanos por nuestras redes sociales</h2>
-      <div class="redes">
-        <a href="https://www.facebook.com/share/1ZWwZdhMRP/?mibextid=wwXIfr" target="_blank">Facebook</a> |
-        <a href="https://www.instagram.com/miga_crema.04" target="_blank">Instagram</a> |
-        <a href="https://wa.me/5212321237364?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20hacer%20un%20pedido%20en%20Miga%20y%20Crema%20%F0%9F%8E%82" target="_blank" class="whatsapp-link">WhatsApp</a>
-      </div>
-    </footer>
-  </div>
-
-  <!-- ICONO FLOTANTE DEL CARRITO -->
-  <div id="carrito-icono" onclick="toggleCarrito()" title="Ver carrito">🛒 <span id="contador-carrito">0</span></div>
-
-  <!-- PANEL LATERAL DEL CARRITO -->
-  <aside id="carrito-panel" class="carrito-panel hidden">
-    <div class="carrito-header">
-      <h2>Tu Carrito</h2>
-      <button class="close" onclick="toggleCarrito()">✕</button>
-    </div>
-
-    <ul id="carrito-lista" class="carrito-lista"></ul>
-
-    <div class="carrito-footer">
-      <p id="total">Total: $0</p>
-
-      <label for="metodo-pago">Método de Pago rápido</label>
-      <select id="metodo-pago">
-        <option value="efectivo">Efectivo</option>
-        <option value="transferencia">Transferencia</option>
-      </select>
-
-      <div class="carrito-actions">
-        <button onclick="finalizarCompra()" class="btn-small btn-primary">Finalizar Compra</button>
-        <button onclick="vaciarCarrito()" class="btn-small btn-ghost">Vaciar Carrito</button>
-      </div>
-    </div>
-  </aside>
-
-  <!-- MODAL DE DETALLE DE PEDIDO -->
-  <div id="order-modal-backdrop" class="modal-backdrop hidden">
-    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
-      <button class="close-modal" onclick="closeOrderModal()">✕</button>
-      <h3 id="order-modal-title">Detalle del pedido</h3>
-      <div id="order-modal-body"></div>
-    </div>
-  </div>
-
-  <div id="toast" class="toast hidden"></div>
-
-  <!-- CONTROLADORES JAVASCRIPT -->
   <script>
-    // FUNCIONES NUEVAS PARA EL VISOR DE HISTORIAS
-    function verFotoHistoria(rutaImagen) {
-      const visor = document.getElementById("modal-visor-historia");
+    let fotosHistoriaActuales = [];
+    let indiceFotoActual = 0;
+
+    function verGaleriaHistoria(elementoHTML, listaImagenes) {
+      if (!listaImagenes || listaImagenes.length === 0) return;
+      
+      // Marca la historia como vista cambiándola a gris
+      elementoHTML.classList.add("vista");
+      
+      fotosHistoriaActuales = listaImagenes;
+      indiceFotoActual = 0;
+      
+      actualizarVisorHistoria();
+      
+      document.getElementById("modal-visor-historia").style.display = "flex";
+    }
+
+    function actualizarVisorHistoria() {
       const imgGrande = document.getElementById("imagen-historia-grande");
-      imgGrande.src = rutaImagen;
-      visor.style.display = "flex";
+      const contador = document.getElementById("contador-fotos-historia");
+      
+      imgGrande.src = fotosHistoriaActuales[indiceFotoActual];
+      contador.textContent = `${indiceFotoActual + 1} / ${fotosHistoriaActuales.length}`;
+      
+      // Control de visibilidad de flechas secundarias
+      const btnPrev = document.querySelector(".nav-historia.prev");
+      const btnNext = document.querySelector(".nav-historia.next");
+      
+      if (fotosHistoriaActuales.length <= 1) {
+        btnPrev.style.display = "none";
+        btnNext.style.display = "none";
+      } else {
+        btnPrev.style.display = "block";
+        btnNext.style.display = "block";
+      }
+    }
+
+    function cambiarFotoHistoria(direccion) {
+      indiceFotoActual += direccion;
+      
+      if (indiceFotoActual >= fotosHistoriaActuales.length) {
+        indiceFotoActual = 0;
+      } else if (indiceFotoActual < 0) {
+        indiceFotoActual = fotosHistoriaActuales.length - 1;
+      }
+      
+      actualizarVisorHistoria();
     }
 
     function cerrarVisorHistoria() {
-      const visor = document.getElementById("modal-visor-historia");
-      visor.style.display = "none";
+      document.getElementById("modal-visor-historia").style.display = "none";
     }
 
-    // EL RESTO DE TU SCRIPT SIGUE IGUAL
-    const postres = [
-       {
-        nombre: "Beso de Angel",
-        precio: 50,
-        descripcion: "Una rebanada celestial, suave y cremosa que te hará suspirar con cada bocado.",
-        imagen: "img/angel.jpg"
-       },
-        {
-        nombre: "Brownie sencillo",
-        precio: 20,
-        descripcion: "Chocolatoso, denso y con la textura ideal por dentro y por fuera.",
-        imagen: "img/sencillo.png"
-       },
-      {
-        nombre: "Brownie con Nutella",
-        precio: 25,
-        descripcion: "Nuestro brownie clásico cubierto con una generosa capa de Nutella.",
-        imagen: "img/brownies.jpg"
-       },
-      {
-        nombre: "Brownie con Nutella y Topping",
-        precio: 30,
-        descripcion: "El brownie definitivo: Nutella y tu topping favorito para darle texturas.",
-        imagen: "img/brownies.jpg"
-       },
-      {
-        nombre: "Concha Tematica",
-        precio: 25,
-        descripcion: "Pan tradicional esponjoso con diseños creativos y personalizados de tus personajes o festividades favoritas.",
-        imagen: "img/mini conchas.png"
-       },
-       {
-        nombre: "Chocoflan",
-        precio: 45,
-        descripcion: "La mezcla perfecta de flan y pastel de chocolate.",
-        imagen: "img/chocoflan.jpg"
-       },
-       {
-        nombre: "Cheesecake de Zarzamora",
-        precio: 220,
-        descripcion: "Base crujiente de galleta con una cubierta de mermelada.",
-        imagen: "img/cheescake_zarzamora.jpg",
-       },
-       {
-        nombre: "Cheesecake Tortuga",
-        precio: 50,
-        descripcion: "Base crujiente de galleta con una cubierta de mermelada.",
-        imagen: "img/cheescake_tortuga.jpg",
-       },
-        {
-        nombre: "Cheesecake de Oreo",
-        precio: 50,
-        descripcion: "Base crujiente de galleta de oreo.",
-        imagen: "img/cheescake_oreo.jpg"
-       },
-       {
-        nombre: "Empanada Rellena",
-        precio: 12,
-        descripcion: "Crujiente y deliciosa empanade rellena de chocolate.",
-        imagen: "img/empanadas.jpg"
-       },
-        {
-        nombre: "Mini Hotcakes Charola chica",
-        precio: 35, 
-        descripcion: "Pequeños y esponjosos, perfectos para compartir.",
-        imagen: "img/hotcakes.jpg"
-       },
-       {
-        nombre: "Mini Hotcakes Charola Grande",
-        precio: 60, 
-        descripcion: "Pequeños y esponjosos, perfectos para compartir.",
-        imagen: "img/hotcakes.jpg"
-       },
-       {
-        nombre: "Mini Donitas",
-        precio: 35,
-        descripcion: "Mini donitas super ricas y calientitas.",
-        imagen: "img/donitas.jpg"
-       },
-       {
-        nombre: "Mini Waffles",
-        precio: 35,
-        descripcion: "Mini waffles super ricos, crujientes y calientitos.",
-        imagen: "img/mini waffles.png"
-       },
-       {
-        nombre: "Mojadito con Nuez",
-        precio: 35,
-        descripcion: "Pastelito de 3 leches cubierto de merengue y nuez.",
-        imagen: "img/mojadito_1.jpg"
-       },
-        {
-        nombre: "Mojadito con Chispas de Chocolate",
-        precio: 35,
-        descripcion: "Pastelito de 3 leches cubierto de merengue y chispas de chocolate.",
-        imagen: "img/mojadito_2.jpg"
-       },
-        {
-        nombre: "Mojadito de Galleta Oreo",
-        precio: 35,
-        descripcion: "Pastelito de 3 leches cubierto de merengue y galleta oreo.",
-        imagen: "img/mojadito_3.jpg"
-       },
-       {
-        nombre: "Panque de Elote",
-        precio: 35,
-        descripcion: "Panque esponjoso y delicioso hecho de elote.",
-        imagen: "img/panque_elote.jpg"
-       },
-      {
-        nombre: "Panque de nuez",
-        precio: 150,
-        descripcion: "Panque esponjoso y delicioso hecho de elote.",
-        imagen: "img/panque de nuez.jpg"
-       },
-       {
-        nombre: "Pay de Queso",
-        precio: 200,
-        descripcion: "Esponjoso y Delicioso.",
-        imagen: "img/cheescake.jpg"
-       },
-        {
-        nombre: "Pastel Matilda",
-        precio: 300,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/pastel_matilda.jpg"
-       },
-       {
-        nombre: "Pastel de Zanahoria",
-        precio: 300,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/pastel de zanahoria.jpg"
-       },
-        {
-        nombre: "Trenza de Nutella y Philadelfia",
-        precio: 40,
-        descripcion: "Panecito largo como una trenza, relleno de nutella y queso philadelfia.",
-        imagen: "img/trenza.jpg"
-       },
-        {
-        nombre: "Trenza de Zarzamora",
-        precio: 40,
-        descripcion: "Panecito largo como una trenza, relleno de Zarzamora y queso philadelfia.",
-        imagen: "img/trenza.jpg"
-       },
-       {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 300,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/cumpleaños 1.jpg"
-       },
-        {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 350,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno.jpg"
-       },
-        {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 300,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/cumpleaños 2.jpg"
-       },
-        {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 350,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/cumpleaños.jpg"
-       },
-      {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 550,
-        descripcion: "Nosotros hacemos realidad ese diseño.",
-        imagen: "img/pastel de cumpleaños.jpg"
-       },
-      {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 500,
-        descripcion: "Algo dulce para un dia especial.",
-        imagen: "img/pastel de cumpleaños 1.jpg"
-       },
-       {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 320,
-        descripcion: "Romántico desayuno con detalles dulces.",
-        imagen: "img/cumpleaños 3.jpg"
-       },
-       {
-        nombre: "Desayuno de Cumpleaños",
-        precio: 320,
-        descripcion: "Romántico desayuno con detalles dulces.",
-        imagen: "img/cumpleaños 4.jpg"
-       },
-        {
-        nombre: "Desayuno para Papá",
-        precio: 300,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno_2.jpg"
-       },
-        {
-        nombre: "Desayuno para Papá",
-        precio: 300,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno_3.jpg"
-       },
-        {
-        nombre: "Desayuno para Papá",
-        precio: 320,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno_5.jpg"
-       },
-       {
-        nombre: "Desayuno para Mamá",
-        precio: 320,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno1.jpg"
-       },
-       {
-        nombre: "Desayuno para Mamá",
-        precio: 350,
-        descripcion: "El mejor dia para endulzarle la vida a mamá.",
-        imagen: "img/mama.jpg"
-       },
-        {
-        nombre: "Desayuno para Papá",
-        precio: 240,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno_4.jpg"
-       },
-       {
-        nombre: "Desayuno para Pareja",
-        precio: 320,
-        descripcion: "Romántico desayuno con detalles dulces.",
-        imagen: "img/desayuno_6.jpg"
-       },
-       {
-        nombre: "Desayuno para Pareja",
-        precio: 320,
-        descripcion: "Romántico desayuno con detalles dulces.",
-        imagen: "img/desayuno_7.jpg"
-       },
-        {
-        nombre: "Desayuno para Pareja",
-        precio: 240,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno_0.jpg"
-       },
-        {
-        nombre: "Desayuno para Pareja",
-        precio: 240,
-        descripcion: "Un detalle muy dulce.",
-        imagen: "img/desayuno 10.jpg"
-       },
-       {
-        nombre: "Desayuno para el Dia del Maestro",
-        precio: 350,
-        descripcion: "Un dulce desayuno para el/la mejor Maestr@.",
-        imagen: "img/maestro.jpg"
-       },
-        {
-        nombre: "Eventos",
-        precio: 240,
-        descripcion: "disponibles para cualquier evento.",
-        imagen: "img/eventos.jpg"
-       },
-       {
-        nombre: "Soda Italiana de Fresa",
-        precio: 45,
-        descripcion: "Rica soda burbujeante sabor fresa.",
-        imagen: "img/bebida 1.jpg"
-       },
-       {
-        nombre: "Soda Italiana de Manzana",
-        precio: 45,
-        descripcion: "Rica soda burbujenate sabor manzana",
-        imagen: "img/bebida 10.jpg"
-       },
-        {
-        nombre: "Café Americano",
-        precio: 40,
-        descripcion: "El clásico e indispensable café negro, balanceado y aromático.",
-        imagen: "img/cafee.jpg"
-       },
-       {
-        nombre: "Café Espresso",
-        precio: 25,
-        descripcion: "Corto, intenso y con mucha energía en cada sorbo.",
-        imagen: "img/cafe.jpg"
-       },
-       {
-        toggle: true,
-        nombre: "Café Lechero",
-        precio: 45,
-        descripcion: "Tradicional y reconfortante combinación de café con leche cremosa.",
-        imagen: "img/cafe.jpg"
-       },
-       {
-        nombre: "Capuchino",
-        precio: 65,
-        descripcion: "Equilibrio perfecto entre espresso, leche vaporizada y espuma densa.",
-        imagen: "img/capuchino.jpg"
-       },
-       {
-        nombre: "Café Capuchino",
-        precio: 65,
-        descripcion: "Todo el sabor y la espuma de un capuchino, pero en una versión refrescante y helada.",
-        imagen: "img/capuchino caliente.jpg"
-       },
-       {
-        nombre: "Café Capuchino con Sabor",
-        precio: 55,
-        descripcion: "Nuestro capuchino clásico con un toque dulce de tu jarabe favorito",
-        imagen: "img/capuchino caliente.jpg"
-       },
-       {
-        nombre: "Café Latte",
-        precio: 25,
-        descripcion: "Suave, ligero y con mayor porción de leche vaporizada.",
-        imagen: "img/late.jpg"
-       },
-       {
-        nombre: "Café Late con Sabor",
-        precio: 55,
-        descripcion: "La delicadeza del latte mezclada con un delicioso toque de sabor.",
-        imagen: "img/late con sabor.jpg"
-       },
-       {
-        nombre: "Latte Frio",
-        precio: 50,
-        descripcion: "Tu café con leche de siempre, pero servido bien helado para refrescar el día.",
-        imagen: "img/late.jpg"
-       },
-       {
-        nombre: "Latte Frio de Taro",
-        precio: 65,
-        descripcion: "Una combinación suave, balanceada y con el toque dulce del taro.",
-        imagen: "img/late de taro.jpg"
-       },
-       {
-        nombre: "Frappe de Carlos V",
-        precio: 65,
-        descripcion: "Un clásico mexicano transformado en una bebida fría intensamente chocolatosa.",
-        imagen: "img/bebida carlos.jpg"
-       },
-       {
-        nombre: "Frappe de Crema Irlandesa",
-        precio: 65,
-        descripcion: "Elegante y cremosa, con las notas dulces y aromáticas.",
-        imagen: "img/bebida mazapan.jpg"
-       },
-        {
-        nombre: "Frappe de Ferrero Rocher",
-        precio: 65,
-        descripcion: "El sabor del lujo hecho bebida: chocolate premium y avellana en perfecta sintonía.",
-        imagen: "img/bebida 9.jpg"
-       },
-       {
-        nombre: "Frappe de Gansito",
-        precio: 70,
-        descripcion: "Disfruta un delicioso frappe de gansito.",
-        imagen: "img/bebida 6.jpg"
-       },
-       {
-        nombre: "Frappe de Mazapan",
-        precio: 65,
-        descripcion: "Un homenaje a la nostalgia; súper cremoso y con el auténtico sabor al dulce de cacahuate.",
-        imagen: "img/mazapan.jpg"
-       },
-       {
-        nombre: "Frappe de Moka",
-        precio: 65,
-        descripcion: "La combinación celestial de espresso, leche fría y un toque irresistible de chocolate.",
-        imagen: "img/bebida moka.jpg"
-       },
-       {
-        nombre: "Frappe de Oreo",
-        precio: 65,
-        descripcion: "Una explosión cremosa cargada de trocitos de la galleta favorita de todos.",
-        imagen: "img/bebida 7.jpg"
-       },
-       {
-        nombre: "Frappe de Taro",
-        precio: 65,
-        descripcion: "Una bebida cremosa, de un lindo tono morado y con ese sabor dulce y exótico tan característico.",
-        imagen: "img/bebida 8.jpg"
-       }
-    ];
-
-    let carrito = JSON.parse(localStorage.getItem("miga_cart") || "[]");
-    let usuarioActual = null;
-    let isAdmin = false;
-
-    function showToast(msg, timeout = 2000) {
-      const t = document.getElementById("toast");
-      t.textContent = msg;
-      t.classList.remove("hidden");
-      t.style.opacity = "1";
-      setTimeout(() => {
-        t.style.opacity = "0";
-        setTimeout(() => t.classList.add("hidden"), 300);
-      }, timeout);
-    }
-
-    function abrirAppComo(role = "user") {
-      isAdmin = (role === "admin");
-      document.getElementById("login-screen").classList.add("hidden");
-      document.getElementById("main-app").classList.remove("hidden");
-      document.getElementById("admin-panel").classList.toggle("hidden", !isAdmin);
-
-      generarMenu();
-      actualizarCarritoUI();
-    }
-
-    document.getElementById("btn-login").addEventListener("click", () => {
-      const email = document.getElementById("login-email").value.trim();
-      const pass = document.getElementById("login-pass").value;
-
-      if (email === "admin@admin.com" && pass === "admin123") {
-        usuarioActual = email;
-        abrirAppComo("admin");
-        showToast("Bienvenido, administrador");
-        return;
+    function cerrarVisorHistoriaExterno(event) {
+      if (event.target.id === "modal-visor-historia") {
+        cerrarVisorHistoria();
       }
-
-      if (!email || !pass) {
-        showToast("Introduce email y contraseña");
-        return;
-      }
-
-      usuarioActual = email;
-      abrirAppComo("user");
-      showToast(`Bienvenido ${email}`);
-    });
-
-    document.getElementById("login-as-user").addEventListener("click", (e) => {
-      e.preventDefault();
-      const email = document.getElementById("login-email").value.trim() || `cliente${Date.now()}@demo.com`;
-      document.getElementById("login-email").value = email;
-      usuarioActual = email;
-      abrirAppComo("user");
-      showToast(`Entrando como ${email}`);
-    });
-
-    document.getElementById("btn-logout").addEventListener("click", () => {
-      usuarioActual = null;
-      isAdmin = false;
-      document.getElementById("main-app").classList.add("hidden");
-      document.getElementById("login-screen").classList.remove("hidden");
-      document.getElementById("login-email").value = "";
-      document.getElementById("login-pass").value = "";
-    });
-
-    function generarMenu() {
-      const postresCont = document.getElementById("postres-lista");
-      const bebidasCalientesCont = document.getElementById("bebidas-calientes-lista");
-      const bebidasFriasCont = document.getElementById("bebidas-frias-lista");
-      const desayunosCont = document.getElementById("desayunos-lista");
-
-      postresCont.innerHTML = "";
-      bebidasCalientesCont.innerHTML = "";
-      bebidasFriasCont.innerHTML = "";
-      desayunosCont.innerHTML = "";
-
-      postres.forEach((p,index)=>{
-        const card = document.createElement("div");
-        card.className = "postre";
-        card.innerHTML = `
-          <img src="${p.imagen}" alt="${p.nombre}">
-          <h3>${p.nombre}</h3>
-          <p class="desc">${p.descripcion}</p>
-          <p><strong>$${p.precio}</strong></p>
-          <div class="add-row">
-            <input type="number" id="cantidad-${index}" min="1" value="1" class="cantidad-input">
-            <button class="small" onclick="agregarCarrito(${index})">Agregar</button>
-          </div>
-        `;
-
-        if(p.nombre.includes("Frappe") || p.nombre.includes("Capuchino") || p.nombre.includes("Soda") || p.nombre.includes("Latte")|| p.nombre.includes("Café")){
-          const esCaliente = p.nombre.toLowerCase().includes("caliente") || 
-                            p.nombre === "Café Americano" || 
-                            p.nombre === "Café Espresso" || 
-                            p.nombre === "Café Lechero" || 
-                            p.nombre === "Café Latte" || 
-                            p.nombre === "Café Late con Sabor" ||
-                            p.nombre === "Café Capuchino" || 
-                            p.nombre === "Café Capuchino con Sabor";
-          
-          if(esCaliente) {
-            bebidasCalientesCont.appendChild(card);
-          } else {
-            bebidasFriasCont.appendChild(card);
-          }
-        } else if(p.nombre.includes("Desayuno") || p.nombre.includes("Eventos")){
-          desayunosCont.appendChild(card);
-        } else {
-          postresCont.appendChild(card);
-        }
-      });
-
-      if(document.getElementById("admin-total-items")) {
-        document.getElementById("admin-total-items").textContent = postres.length;
-      }
-    }
-
-    function mostrarCategoria(categoria){
-      document.getElementById("postres-section").classList.add("hidden");
-      document.getElementById("bebidas-section").classList.add("hidden");
-      document.getElementById("desayunos-section").classList.add("hidden");
-
-      if(categoria === "postres") document.getElementById("postres-section").classList.remove("hidden");
-      if(categoria === "bebidas") document.getElementById("bebidas-section").classList.remove("hidden");
-      if(categoria === "desayunos") document.getElementById("desayunos-section").classList.remove("hidden");
-      
-      document.getElementById(`${categoria}-section`).scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function guardarCarrito() {
-      localStorage.setItem("miga_cart", JSON.stringify(carrito));
-      actualizarCarritoUI();
-    }
-
-    function agregarCarrito(index) {
-      const cantidadInput = document.getElementById(`cantidad-${index}`);
-      let cantidad = parseInt(cantidadInput?.value || 1, 10);
-      if (!cantidad || cantidad < 1) cantidad = 1;
-
-      const producto = postres[index];
-      const existente = carrito.find(it => it.nombre === producto.nombre);
-      if (existente) existente.cantidad += cantidad;
-      else carrito.push({ nombre: producto.nombre, precio: producto.precio, cantidad, imagen: producto.imagen });
-
-      guardarCarrito();
-      showToast(`Agregaste ${cantidad} x ${producto.nombre}`);
-    }
-
-    function toggleCarrito() {
-      document.getElementById("carrito-panel").classList.toggle("hidden");
-    }
-
-    function actualizarCarritoUI() {
-      const contador = carrito.reduce((s, it) => s + it.cantidad, 0);
-      document.getElementById("contador-carrito").textContent = contador;
-
-      const lista = document.getElementById("carrito-lista");
-      lista.innerHTML = "";
-      let total = 0;
-      carrito.forEach((item, idx) => {
-        const li = document.createElement("li");
-        li.className = "carrito-item";
-        li.innerHTML = `
-          <div class="ci-left"><img src="${item.imagen}" alt="${item.nombre}" onerror="this.src='img/placeholder.png'"></div>
-          <div class="ci-body">
-            <div class="ci-title">${item.nombre}</div>
-            <div class="ci-price">$${item.precio} c/u</div>
-          </div>
-        `;
-        lista.appendChild(li);
-        total += item.precio * item.cantidad;
-      });
-      document.getElementById("total").textContent = `Total: $${total}`;
     }
   </script>
 </body>
