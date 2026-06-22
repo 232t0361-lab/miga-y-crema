@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title> MIGA Y CREMA - Tienda Online</title>
+  <title>MIGA Y CREMA - Tienda Online</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
+  <!-- MODAL DE CHECKOUT -->
   <div id="checkout-modal" class="modal-backdrop hidden">
     <div class="checkout-modal">
       <button class="close-modal" onclick="cerrarCheckout()">✕</button>
@@ -62,6 +63,7 @@
     </div>
   </div>
 
+  <!-- PANTALLA DE LOGIN -->
   <div id="login-screen" class="login-screen">
     <div class="login-card">
       <img src="img/portada.jpg" alt="Logo Miga y Cream" class="login-logo" />
@@ -83,6 +85,7 @@
     </div>
   </div>
 
+  <!-- APLICACIÓN PRINCIPAL -->
   <div id="main-app" class="hidden">
     <header>
       <div class="logo-container">
@@ -94,47 +97,72 @@
         <a href="#inicio">Inicio</a>
         <a href="#conocenos">Conócenos</a>
         <a href="#menu">Menú</a>
-        <a href="#contacto">Contacto</a>
+        <a href="#ubicacion">Ubicación</a>
         <button id="btn-logout" class="small-ghost">Cerrar sesión</button>
       </nav>
     </header>
     
+    <!-- BARRA DE HISTORIAS INTERACTIVAS (RECUERDA ASIGNAR TUS FOTOS DE CARPETA AQUÍ) -->
+    <div class="historias-container">
+      <div class="historia-item" onclick="mostrarCategoria('postres')">
+        <div class="circulo-borde">
+          <img src="img/chocoflan.jpg" alt="Postres">
+        </div>
+        <span>Postres</span>
+      </div>
+      <div class="historia-item" onclick="mostrarCategoria('bebidas')">
+        <div class="circulo-borde">
+          <img src="img/bebida 5.jpg" alt="Bebidas">
+        </div>
+        <span>Bebidas</span>
+      </div>
+      <div class="historia-item" onclick="mostrarCategoria('desayunos')">
+        <div class="circulo-borde">
+          <img src="img/desayuno_6.jpg" alt="Desayunos">
+        </div>
+        <span>Desayunos</span>
+      </div>
+    </div>
+
     <main>
-      <section class="conoce" id="conoce">
+      <!-- SECCIÓN INICIO (CARRUSEL) -->
+      <section id="inicio" class="carrusel-wrapper">
+        <div class="carrusel-container">
+          <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
+          <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
+          
+          <div class="carrusel-track" id="carruselTrack">
+            <div class="carrusel-slide"><img src="img/menú de pasteles.png" alt="Promoción 1"></div>
+            <div class="carrusel-slide"><img src="img/mini_cheescake.jpg" alt="Promoción 2"></div>
+            <div class="carrusel-slide"><img src="img/desayuno_7.jpg" alt="Promoción 3"></div>
+            <div class="carrusel-slide"><img src="img/desayuno_2.jpg" alt="Promoción 4"></div>
+            <div class="carrusel-slide"><img src="img/desayuno_0.jpg" alt="Promoción 5"></div>
+            <div class="carrusel-slide"><img src="img/desayuno 10.jpg" alt="Promoción 6"></div>
+          </div>
+        </div>
+        <div class="carrusel-dots" id="carruselDots">
+          <span class="dot active" onclick="irAlSlide(0)"></span>
+          <span class="dot" onclick="irAlSlide(1)"></span>
+          <span class="dot" onclick="irAlSlide(2)"></span>
+          <span class="dot" onclick="irAlSlide(3)"></span>
+          <span class="dot" onclick="irAlSlide(4)"></span>
+          <span class="dot" onclick="irAlSlide(5)"></span>
+        </div>
+      </section>
+
+      <!-- SECCIÓN CONÓNENOS -->
+      <section class="conoce" id="conocenos">
         <h2>Conócenos</h2>
         <p>
           En <strong>MIGA Y CREMA</strong> creemos firmemente que cada postre cuenta una historia.  
           En este negocio se siente un gran amor por la repostería artesanal, donde tradición y creatividad se mezclan para dar vida a sabores únicos.  
           Nuestro compromiso es ofrecerte productos frescos, elaborados con ingredientes de calidad y mucho amor, para que cada bocado se convierta en un momento especial.  
-          Más que vender postres, buscamos compartir experiences dulces que acompañen tus celebraciones, tus mañanas y tus recuerdos más importantes.
-          El sabor de los Postres "MIGA Y CREMA" siempre estarán acompañandote.
+          Más que vender postres, buscamos compartir experiencias dulces que acompañen tus celebraciones, tus mañanas y tus recuerdos más importantes.
+          El sabor de los Postres "MIGA Y CREMA" siempre estarán acompañándote.
         </p>
       </section>  
 
-        <div class="carrusel-wrapper" id="inicio">
-      <div class="carrusel-container">
-        <button class="carrusel-btn prev" onclick="cambiarSlide(-1)">❮</button>
-        <button class="carrusel-btn next" onclick="cambiarSlide(1)">❯</button>
-        
-        <div class="carrusel-track" id="carruselTrack">
-          <div class="carrusel-slide"><img src="img/menú de pasteles.png" alt="Promoción 1"></div>
-          <div class="carrusel-slide"><img src="img/mini_cheescake.jpg" alt="Promoción 2"></div>
-          <div class="carrusel-slide"><img src="img/desayuno_7.jpg" alt="Promoción 3"></div>
-          <div class="carrusel-slide"><img src="img/desayuno_2.jpg" alt="Promoción 4"></div>
-          <div class="carrusel-slide"><img src="img/desayuno_0.jpg" alt="Promoción 5"></div>
-          <div class="carrusel-slide"><img src="img/desayuno 10.jpg" alt="Promoción 6"></div>
-        </div>
-      </div>
-      <div class="carrusel-dots" id="carruselDots">
-        <span class="dot active" onclick="irAlSlide(0)"></span>
-        <span class="dot" onclick="irAlSlide(1)"></span>
-        <span class="dot" onclick="irAlSlide(2)"></span>
-         <span class="dot active" onclick="irAlSlide(3)"></span>
-        <span class="dot" onclick="irAlSlide(4)"></span>
-        <span class="dot" onclick="irAlSlide(5)"></span>
-      </div>
-    </div>
-
+      <!-- SECCIÓN MENÚ -->
       <section id="menu" class="menu-visual">
         <div class="menu-banner">
           <h2>¿Qué deseas ordenar hoy?</h2>
@@ -170,6 +198,7 @@
           </div>
         </div>
 
+        <!-- LISTADOS DE PRODUCTOS -->
         <div id="postres-section" class="categoria-section hidden">
           <h2 class="categoria-title">Postres Artesanales</h2>
           <div class="galeria" id="postres-lista"></div>
@@ -177,9 +206,9 @@
 
         <div id="bebidas-section" class="categoria-section hidden">
           <h2 class="categoria-title">Bebidas</h2>
-          <h3 style="color: #a2214c; margin: 20px 0 10px 10px; font-size: 1.5rem;"> Bebidas Calientes</h3>
+          <h3 style="color: #a2214c; margin: 20px 0 10px 10px; font-size: 1.5rem;">Bebidas Calientes</h3>
           <div class="galeria bebidas-grid" id="bebidas-calientes-lista"></div>
-          <h3 style="color: #a2214c; margin: 30px 0 10px 10px; font-size: 1.5rem;"> Bebidas Frías</h3>
+          <h3 style="color: #a2214c; margin: 30px 0 10px 10px; font-size: 1.5rem;">Bebidas Frías</h3>
           <div class="galeria bebidas-grid" id="bebidas-frias-lista"></div>
         </div>
 
@@ -187,17 +216,16 @@
           <h2 class="categoria-title">Desayunos</h2>
           <div class="galeria desayunos-grid" id="desayunos-lista"></div>
         </div>
+
+        <!-- BOTÓN DESCARGAR MENÚ PDF -->
+        <div class="menu-pdf-container" style="text-align: center; margin: 40px 0;">
+          <a href="menú miga_y_crema x dulce_paladar.pdf" download="Menu_Miga_y_Crema.pdf" class="btn-small btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;">
+             Descargar Menú en PDF
+          </a>
+        </div>
       </section>
 
-      <section id="menu" class="menu-visual">
-        <div class="menu-banner"
-          <div style="margin-top: 15px;">
-            <a href="menú miga_y_crema x dulce_paladar.pdf" download="Menu_Miga_y_Crema.pdf" class="btn-small btn-primary" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;">
-               Descargar Menú en PDF
-            </a>
-          </div>
-        </div>
-
+      <!-- PANEL DE ADMINISTRACIÓN -->
       <section id="admin-panel" class="admin-panel hidden">
         <h2>Panel de Administrador</h2>
         <p>Bienvenido, administrador. Aquí verás estadísticas y pedidos.</p>
@@ -233,6 +261,7 @@
         </div>
       </section>
 
+      <!-- SECCIÓN UBICACIÓN Y MAPA -->
       <section id="ubicacion" class="ubicacion" style="padding:20px 12px;">
         <h2>Ubicación</h2>
         <p>Calle Miguel Hidalgo S/N, Misantla, Veracruz</p>
@@ -242,21 +271,24 @@
       </section>
     </main>
 
+    <!-- PIE DE PÁGINA Y CONTACTO -->
     <footer>
       <h2>Contáctanos por nuestras redes sociales</h2>
       <div class="redes">
         <a href="https://www.facebook.com/share/1ZWwZdhMRP/?mibextid=wwXIfr" target="_blank">Facebook</a> |
         <a href="https://www.instagram.com/miga_crema.04" target="_blank">Instagram</a> |
-        <a href="https://wa.me/5212321237364" target="_blank">WhatsApp</a>
+        <a href="https://wa.me/5212321237364?text=%C2%A1Hola!%20Me%20gustar%C3%ADa%20hacer%20un%20pedido%20en%20Miga%20y%20Crema%20%F0%9F%8E%82" target="_blank" class="whatsapp-link">WhatsApp</a>
       </div>
     </footer>
   </div>
 
+  <!-- ICONO FLOTANTE DEL CARRITO -->
   <div id="carrito-icono" onclick="toggleCarrito()" title="Ver carrito">🛒 <span id="contador-carrito">0</span></div>
 
+  <!-- PANEL LATERAL DEL CARRITO -->
   <aside id="carrito-panel" class="carrito-panel hidden">
     <div class="carrito-header">
-      <h2> Tu Carrito</h2>
+      <h2>Tu Carrito</h2>
       <button class="close" onclick="toggleCarrito()">✕</button>
     </div>
 
@@ -265,7 +297,7 @@
     <div class="carrito-footer">
       <p id="total">Total: $0</p>
 
-      <label for="metodo-pago">Método de Pago rápida</label>
+      <label for="metodo-pago">Método de Pago rápido</label>
       <select id="metodo-pago">
         <option value="efectivo">Efectivo</option>
         <option value="transferencia">Transferencia</option>
@@ -278,6 +310,7 @@
     </div>
   </aside>
 
+  <!-- MODAL DE DETALLE DE PEDIDO -->
   <div id="order-modal-backdrop" class="modal-backdrop hidden">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
       <button class="close-modal" onclick="closeOrderModal()">✕</button>
@@ -288,6 +321,7 @@
 
   <div id="toast" class="toast hidden"></div>
 
+  <!-- CONTROLADORES JAVASCRIPT -->
   <script>
     const postres = [
        {
@@ -802,6 +836,9 @@
       if(categoria === "postres") document.getElementById("postres-section").classList.remove("hidden");
       if(categoria === "bebidas") document.getElementById("bebidas-section").classList.remove("hidden");
       if(categoria === "desayunos") document.getElementById("desayunos-section").classList.remove("hidden");
+      
+      // Desplazar automáticamente hacia las secciones correspondientes al pulsar
+      document.getElementById(`${categoria}-section`).scrollIntoView({ behavior: 'smooth' });
     }
 
     function guardarCarrito() {
@@ -853,151 +890,8 @@
         lista.appendChild(li);
         total += item.precio * item.cantidad;
       });
-
       document.getElementById("total").textContent = `Total: $${total}`;
-      localStorage.setItem("miga_cart", JSON.stringify(carrito));
-
-      lista.querySelectorAll(".qty-btn").forEach(b => b.addEventListener("click", (e) => {
-        const i = parseInt(b.dataset.idx, 10), d = parseInt(b.dataset.delta, 10);
-        cambiarCantidad(i, d);
-      }));
-      lista.querySelectorAll(".qty-input").forEach(inp => inp.addEventListener("change", (e) => {
-        const i = parseInt(inp.dataset.idx, 10);
-        setCantidadFromInput(i, inp.value);
-      }));
-      lista.querySelectorAll(".remove").forEach(btn => btn.addEventListener("click", (e) => {
-        const i = parseInt(btn.dataset.remove, 10);
-        eliminarItem(i);
-      }));
-    }
-
-    function setCantidadFromInput(idx, value) {
-      let v = parseInt(value, 10);
-      if (!v || v < 1) v = 1;
-      carrito[idx].cantidad = v;
-      actualizarCarritoUI();
-    }
-
-    function cambiarCantidad(idx, delta) {
-      carrito[idx].cantidad += delta;
-      if (carrito[idx].cantidad < 1) carrito[idx].cantidad = 1;
-      actualizarCarritoUI();
-    }
-
-    function eliminarItem(idx) {
-      const nombre = carrito[idx].nombre;
-      carrito.splice(idx, 1);
-      actualizarCarritoUI();
-      showToast(`${nombre} eliminado`);
-    }
-
-    function vaciarCarrito() {
-      if (!confirm("¿Deseas vaciar el carrito?")) return;
-      carrito = [];
-      guardarCarrito();
-      showToast("Carrito vaciado");
-    }
-
-    /* ---------- FINALIZAR COMPRA ---------- */
-    function finalizarCompra(){
-      if(carrito.length === 0){
-          showToast("Tu carrito está vacío");
-          return;
-      }
-
-      const modal = document.getElementById("checkout-modal");
-      const items = document.getElementById("checkout-items");
-      let html = "";
-      let total = 0;
-
-      carrito.forEach(item => {
-          html += `<p>${item.cantidad} x ${item.nombre} - $${item.precio * item.cantidad}</p>`;
-          total += item.precio * item.cantidad;
-      });
-
-      items.innerHTML = html;
-      document.getElementById("checkout-total").innerHTML = `Total: $${total}`;
-
-      modal.classList.remove("hidden");
-      
-      const metodoRapido = document.getElementById("metodo-pago").value;
-      document.getElementById("metodo-pago-selector").value = metodoRapido;
-      seleccionarMetodoPago();
-    }
-
-    function cerrarCheckout(){
-      document.getElementById("checkout-modal").classList.add("hidden");
-    }
-
-    /* INTERRUPTOR DE INTERFAZ DINÁMICA (Efectivo / Transferencia) */
-    function seleccionarMetodoPago() {
-      const metodo = document.getElementById("metodo-pago-selector").value;
-      const datosBanco = document.getElementById("datos-banco-bbva");
-      const notaEfectivo = document.getElementById("nota-efectivo");
-
-      datosBanco.style.display = "none";
-      notaEfectivo.style.display = "none";
-
-      if (metodo === "transferencia") {
-        datosBanco.style.display = "block";
-      } else if (metodo === "efectivo") {
-        notaEfectivo.style.display = "block";
-      }
     }
   </script>
-  <script>
-    (function() {
-      let slideActual = 0;
-      let autoPlayCarrusel;
-
-      function mostrarSlide(idx) {
-        const track = document.getElementById("carruselTrack");
-        const slides = document.querySelectorAll(".carrusel-slide");
-        const dots = document.querySelectorAll(".dot");
-        
-        if (!track || slides.length === 0) return;
-
-        if (idx >= slides.length) { slideActual = 0; }
-        else if (idx < 0) { slideActual = slides.length - 1; }
-        else { slideActual = idx; }
-
-        track.style.transform = `translateX(-${slideActual * 100}%)`;
-
-        dots.forEach((dot, i) => {
-          if (dot) dot.classList.toggle("active", i === slideActual);
-        });
-      }
-
-      // Hacer las funciones accesibles para los botones del HTML (onclick)
-      window.cambiarSlide = function(delta) {
-        mostrarSlide(slideActual + delta);
-        reiniciarAutoPlay();
-      }
-
-      window.irAlSlide = function(idx) {
-        mostrarSlide(idx);
-        reiniciarAutoPlay();
-      }
-
-      function iniciarAutoPlay() {
-        autoPlayCarrusel = setInterval(() => {
-          window.cambiarSlide(1);
-        }, 4000); // Se mueve solo cada 4 segundos
-      }
-
-      function reiniciarAutoPlay() {
-        clearInterval(autoPlayCarrusel);
-        iniciarAutoPlay();
-      }
-
-      // Arrancar el carrusel de inmediato en cuanto cargue la estructura
-      window.addEventListener("load", () => {
-        mostrarSlide(0);
-        iniciarAutoPlay();
-      });
-    })();
-  </script>
-</body>
-</html>
 </body>
 </html>
