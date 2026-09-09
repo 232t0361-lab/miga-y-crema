@@ -1,6 +1,15 @@
 <!doctype html>
 <html lang="es">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#743b36"><title>Miga y Crema · Hecho con amor, para ti</title><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/catalogo.js" defer></script><script src="assets/js/app.js" defer></script><script src="assets/js/auth.js" defer></script><script src="assets/js/orders.js" defer></script><script src="assets/js/gallery.js" defer></script></head>
+<head><meta charset="utf-8"><!-- Generated from index.html for regression testing; uses isolated in-memory storage. -->
+<base href="../">
+<script>
+const regressionStorage = () => { const data = new Map(); return {getItem:key=>data.has(key)?data.get(key):null,setItem:(key,value)=>data.set(key,String(value)),removeItem:key=>data.delete(key),clear:()=>data.clear()}; };
+Object.defineProperty(window,'localStorage',{value:regressionStorage()});
+Object.defineProperty(window,'sessionStorage',{value:regressionStorage()});
+localStorage.setItem('miga_cart',JSON.stringify([{nombre:'Beso de Angel',precio:50,cantidad:2,imagen:'img/angel.jpg'}]));
+localStorage.setItem('miga_orders',JSON.stringify([{id:100,cliente:'Cliente anterior',fecha:'2026-09-01T12:00:00Z',total:50,items:[{nombre:'Beso de Angel',cantidad:1,precio:50}]}]));
+</script>
+<script src="tests/regression.js" defer></script><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#743b36"><title>Miga y Crema · Hecho con amor, para ti</title><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/catalogo.js" defer></script><script src="assets/js/app.js" defer></script><script src="assets/js/auth.js" defer></script><script src="assets/js/orders.js" defer></script><script src="assets/js/gallery.js" defer></script></head>
 <body>
 <section id="login-screen" class="login-screen" aria-labelledby="login-title">
   <div class="login-visual"><img src="assets/images/chocoflan.jpg" alt="Chocoflan artesanal"><div><span class="eyebrow">MIGA & CREMA</span><h2>Qué gusto<br>tenerte aquí.</h2><p>Tu próximo antojo está a un paso.</p></div></div>
