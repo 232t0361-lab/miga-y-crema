@@ -1,33 +1,357 @@
 <!doctype html>
 <html lang="es">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#743b36"><title>Miga y Crema · Hecho con amor, para ti</title><link rel="stylesheet" href="assets/css/style.css"><script src="assets/js/catalogo.js" defer></script><script src="assets/js/app.js" defer></script><script src="assets/js/auth.js" defer></script><script src="assets/js/orders.js" defer></script><script src="assets/js/gallery.js" defer></script></head>
-<body>
-<section id="login-screen" class="login-screen" aria-labelledby="login-title">
-  <div class="login-visual"><img src="assets/images/chocoflan.jpg" alt="Chocoflan artesanal"><div><span class="eyebrow">MIGA & CREMA</span><h2>Qué gusto<br>tenerte aquí.</h2><p>Tu próximo antojo está a un paso.</p></div></div>
-  <div class="login-card"><img class="login-logo" src="assets/images/portada.jpg" alt="Miga y Crema"><span class="eyebrow">BIENVENIDO A TU RINCÓN DULCE</span><h1 id="login-title">Un gusto volver a verte.</h1><p>Inicia sesión o entra como cliente para preparar tu pedido.</p>
-    <form id="login-form"><label for="login-email">Correo electrónico</label><input id="login-email" type="email" autocomplete="username" required placeholder="tucorreo@ejemplo.com"><label for="login-pass">Contraseña</label><input id="login-pass" type="password" autocomplete="current-password" required placeholder="Tu contraseña"><p id="login-error" role="alert" hidden></p><button id="btn-login" class="button wide" type="submit">Iniciar sesión →</button></form>
-    <div class="or-sep"><span>o si prefieres</span></div><button id="login-as-user" class="guest-button" type="button">Entrar como cliente</button><p class="muted login-demo">Acceso de demostración del proyecto. No uses una contraseña personal.</p>
-  </div>
-</section>
-<div id="main-app" hidden>
-<div class="announcement">Un antojo, un detalle, un momento especial. Hecho en Misantla, Veracruz.</div>
-<header class="header"><a class="brand" href="#inicio"><img src="assets/images/portada.jpg" alt=""><span>Miga <i>&</i> Crema<small>REPOSTERÍA ARTESANAL</small></span></a><nav aria-label="Navegación principal"><a href="#menu">Nuestro menú</a><a href="#nosotros">Nuestra historia</a><a href="#contacto">Encuéntranos</a></nav><div class="account-actions"><button class="text-button" id="open-orders">Mis pedidos</button><button class="text-button" id="btn-logout">Cerrar sesión</button></div><button class="cart-trigger" id="open-cart">Mi pedido <span id="cart-count">0</span></button></header>
-<main id="inicio">
-<section class="hero"><div class="hero-copy"><span class="eyebrow">DE NUESTRA COCINA A TU MESA</span><h1>La vida sabe mejor<br>con algo <em>dulce.</em></h1><p>Postres artesanales, tu café favorito y desayunos para sorprender. Elige tu antojo y nosotros ponemos el cariño.</p><a class="button" href="#menu">Explorar el menú <span>↗</span></a><div class="hero-note"><span>✳</span> Pequeños detalles. Grandes momentos.</div></div><div class="hero-photo"><img src="assets/images/chocoflan.jpg" alt="Chocoflan artesanal de Miga y Crema" fetchpriority="high"><div class="photo-label"><small>EL ANTOJO DE HOY</small><strong>Un poquito de felicidad</strong><span>Horneado con mucho amor</span></div></div></section>
-<section class="highlights" aria-label="Historias de Miga y Crema">
-  <button data-story="assets/images/chocoflan.jpg" data-title="Postres artesanales"><img src="assets/images/chocoflan.jpg" alt="">Postres</button>
-  <button data-story="assets/images/bebida 5.jpg" data-title="Bebidas especiales"><img src="assets/images/bebida 5.jpg" alt="">Bebidas</button>
-  <button data-story="assets/images/desayuno_6.jpg" data-title="Desayunos para sorprender"><img src="assets/images/desayuno_6.jpg" alt="">Desayunos</button>
-</section>
-<section class="featured" aria-labelledby="featured-title"><div><span class="eyebrow">PARA CADA OCASIÓN</span><h2 id="featured-title">Detalles que se disfrutan.</h2><p>Descubre nuestros pasteles y desayunos especiales.</p><a href="#menu">Ver el menú ↗</a></div><div class="carousel" aria-roledescription="carrusel" aria-label="Productos destacados"><img id="carousel-image" src="assets/images/menú de pasteles.png" alt="Menú de pasteles"><div class="carousel-controls"><button id="carousel-prev" aria-label="Imagen anterior">←</button><span id="carousel-position" aria-live="polite">1 / 6</span><button id="carousel-next" aria-label="Imagen siguiente">→</button><button id="carousel-pause" aria-pressed="false">Pausar</button></div></div></section><div class="benefits"><span>✳ Repostería artesanal</span><span>♡ Detalles para regalar</span><span>⌂ Recoge o pide a domicilio</span></div>
-<section id="menu" class="menu"><div class="section-heading"><div><span class="eyebrow">ENCUENTRA TU FAVORITO</span><h2>¿Qué se te antoja hoy?</h2><p>Algo rico para cada momento del día.</p></div><label class="search"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="Buscar un antojo…" aria-label="Buscar productos"></label></div><div class="menu-tools"><div class="tabs" role="group" aria-label="Categorías"><button class="active" data-category="todos" aria-pressed="true">Todo el menú</button><button data-category="postres" aria-pressed="false">Postres</button><button data-category="bebidas" aria-pressed="false">Bebidas</button><button data-category="desayunos" aria-pressed="false">Desayunos y detalles</button></div><label class="sort">Ordenar <select id="sort"><option value="original">Por catálogo</option><option value="asc">Menor precio</option><option value="desc">Mayor precio</option></select></label></div><p id="results" class="results" aria-live="polite"></p><div id="products" class="products"></div><div class="menu-download"><a href="assets/documents/menú miga_y_crema x dulce_paladar.pdf" download>Descargar nuestro menú en PDF ↓</a></div></section>
-<section id="nosotros" class="story"><img src="assets/images/puesto.jpg" alt="Nuestro negocio Miga y Crema" loading="lazy"><div><span class="eyebrow">MUCHO MÁS QUE UN POSTRE</span><h2>De nuestras manos,<br>con todo el corazón.</h2><p>En Miga y Crema creemos que cada postre cuenta una historia. Mezclamos tradición y creatividad para acompañar tus celebraciones, tus mañanas y esos días que merecen un detalle especial.</p><a href="#menu">Encuentra tu próximo antojo ↗</a></div></section>
-<section id="admin-panel" class="admin-panel" hidden aria-labelledby="admin-title"><span class="eyebrow">ADMINISTRACIÓN LOCAL</span><h2 id="admin-title">Pedidos y catálogo</h2><p>Historial guardado en este navegador. Los pedidos pendientes requieren confirmación con el cliente.</p><div class="admin-cards"><div><span>Productos en catálogo</span><strong id="admin-total-items">0</strong></div><div><span>Pedidos guardados</span><strong id="admin-carritos">0</strong></div></div><div class="table-scroll"><table class="orders-table"><thead><tr><th>Pedido</th><th>Cliente</th><th>Fecha</th><th>Pago</th><th>Subtotal</th><th>Detalle</th></tr></thead><tbody id="orders-tbody"></tbody></table></div><button id="btn-clear-orders" class="text-button">Eliminar historial de pedidos locales</button></section>
-<section id="ubicacion" class="location-section"><span class="eyebrow">TE ESPERAMOS</span><h2>Encuéntranos en Misantla</h2><p>Calle Miguel Hidalgo S/N, Misantla, Veracruz</p><iframe title="Ubicación de Miga y Crema" src="https://www.google.com/maps?q=19.94378,-96.84898&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe></section></main>
-<footer id="contacto"><div><a class="footer-brand" href="#inicio">Miga & Crema</a><p>El lado dulce de tus días.</p></div><div><strong>Visítanos</strong><p>Calle Miguel Hidalgo S/N<br>Misantla, Veracruz</p><a href="https://www.google.com/maps?q=19.94378,-96.84898" target="_blank" rel="noopener">Cómo llegar ↗</a></div><div><strong>Sigamos en contacto</strong><a href="https://www.instagram.com/miga_crema.04" target="_blank" rel="noopener">Instagram ↗</a><a href="https://www.facebook.com/share/1ZWwZdhMRP/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook ↗</a><a href="https://wa.me/522321237364" target="_blank" rel="noopener">WhatsApp ↗</a></div><small class="footer-bottom">Miga y Crema · Repostería artesanal en Misantla</small></footer><button id="floating-cart" class="floating-cart" aria-label="Ver mi carrito"><span>Mi carrito · <span id="floating-count">0</span></span><strong id="floating-total">$0.00</strong><span aria-hidden="true">↗</span></button></div>
-<dialog id="cart-dialog" class="cart-dialog"><div class="dialog-heading"><div><span class="eyebrow">UN ANTOJO A LA VEZ</span><h2>Tu pedido</h2></div><button class="icon-button" data-close="cart-dialog" aria-label="Cerrar carrito">×</button></div><div id="cart-items"></div><div class="cart-bottom"><label class="quick-payment">Forma de pago<select id="quick-payment"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia BBVA</option></select></label><button id="clear-cart" class="text-button">Vaciar carrito</button><div class="total-line"><span>Subtotal</span><strong id="cart-total"></strong></div><p class="muted">Precios en MXN. Disponibilidad, entrega y su costo se confirman con el negocio.</p><button class="button wide" id="checkout-button">Continuar con mi pedido →</button><button class="text-button" data-close="cart-dialog">Seguir explorando</button></div></dialog>
-<dialog id="checkout-dialog" class="checkout-dialog"><div class="dialog-heading"><div><span class="eyebrow">YA CASI ESTÁ</span><h2>El último detalle</h2></div><button class="icon-button" data-close="checkout-dialog" aria-label="Cerrar resumen">×</button></div><form id="checkout-form"><div class="checkout-grid"><div><h3>¿Para quién preparamos el pedido?</h3><label>Tu nombre<input name="nombre" autocomplete="name" required maxlength="100" placeholder="Nombre completo"></label><label>Teléfono<input name="telefono" type="tel" autocomplete="tel" required pattern="[+0-9 ()-]{10,20}" maxlength="20" placeholder="Tu número de contacto"></label><label>¿Cómo lo recibes?<select name="entrega" id="delivery"><option value="local">Recoger en el local</option><option value="domicilio">Entrega a domicilio</option></select></label><label id="address-label" hidden>Dirección de entrega<textarea name="direccion" id="address" autocomplete="street-address" maxlength="350" placeholder="Calle, número, colonia y referencias"></textarea></label><label>Forma de pago<select name="pago" id="payment-method"><option value="efectivo">Efectivo</option><option value="transferencia">Transferencia bancaria BBVA</option><option value="tarjeta" disabled>Tarjeta · pendiente de configurar</option></select></label><section id="transfer-details" class="transfer-details" hidden><h3>Transferencia BBVA</h3><dl><dt>Cuenta</dt><dd>4152 3144 4143 5370</dd><dt>CLABE</dt><dd>012 878 01501049729 0</dd><dt>Titular</dt><dd>JARIVANNY ARLEN DOMINGUEZ MONTOYA</dd></dl><p class="muted">Confirma primero disponibilidad y total con el negocio.</p><label for="comprobante">Comprobante de transferencia (si ya pagaste)</label><input id="comprobante" type="file" accept="image/jpeg,image/png,image/webp,application/pdf"><p id="receipt-status" class="muted" role="status">Puedes seleccionar tu comprobante para revisarlo. Deberás adjuntarlo manualmente en WhatsApp.</p><a id="receipt-preview" hidden target="_blank" rel="noopener">Ver comprobante seleccionado ↗</a></section><label>¿Algo que debamos saber? <span class="muted">(opcional)</span><textarea name="notas" maxlength="500" placeholder="Fecha deseada, dedicatoria o indicaciones especiales"></textarea></label></div><div class="summary"><h3>Así va tu pedido</h3><div id="checkout-items"></div><div class="total-line"><span>Subtotal</span><strong id="checkout-total"></strong></div><p class="muted">El negocio confirmará disponibilidad, horario, costo de envío y datos de pago por WhatsApp.</p><p class="checkout-notice">Se abrirá WhatsApp con tu resumen. Envía el mensaje para solicitar tu pedido; todavía no se ha confirmado ni cobrado.</p><button class="button wide" type="submit">Continuar por WhatsApp ↗</button><button class="text-button" id="edit-cart" type="button">Volver a mi carrito</button></div></div></form></dialog>
-<dialog id="history-dialog" class="checkout-dialog"><div class="dialog-heading"><h2>Mis pedidos</h2><button class="icon-button" data-close="history-dialog" aria-label="Cerrar historial">×</button></div><p class="muted">Solicitudes guardadas en este navegador, pendientes de confirmar con el negocio.</p><div id="customer-orders"></div></dialog>
-<dialog id="order-dialog" class="checkout-dialog"><div class="dialog-heading"><h2>Detalle del pedido</h2><button class="icon-button" data-close="order-dialog" aria-label="Cerrar detalle">×</button></div><div id="order-detail"></div></dialog>
-<dialog id="story-dialog" class="story-dialog"><div class="dialog-heading"><h2 id="story-title">Historias</h2><button class="icon-button" data-close="story-dialog" aria-label="Cerrar historia">×</button></div><img id="story-image" alt=""></dialog><div id="toast" role="status" class="toast" hidden></div>
-</body></html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="#743b36">
+    <title>Miga y Crema · Hecho con amor, para ti</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script src="assets/js/catalogo.js" defer>
+    </script>
+    <script src="assets/js/app.js" defer>
+    </script>
+    <script src="assets/js/auth.js" defer>
+    </script>
+    <script src="assets/js/orders.js" defer>
+    </script>
+    <script src="assets/js/gallery.js" defer>
+    </script>
+  </head>
+  <body>
+    <section id="login-screen" class="login-screen" aria-labelledby="login-title">
+      <div class="login-visual">
+        <img src="assets/images/chocoflan.jpg" alt="Chocoflan artesanal">
+        <div>
+          <span class="eyebrow">MIGA & CREMA</span>
+          <h2>Qué gusto<br>tenerte aquí.</h2>
+          <p>Tu próximo antojo está a un paso.</p>
+        </div>
+      </div>
+      <div class="login-card">
+        <img class="login-logo" src="assets/images/portada.jpg" alt="Miga y Crema">
+        <span class="eyebrow">BIENVENIDO A TU RINCÓN DULCE</span>
+        <h1 id="login-title">Un gusto volver a verte.</h1>
+        <p>Inicia sesión o entra como cliente para preparar tu pedido.</p>
+        <form id="login-form">
+          <label for="login-email">Correo electrónico</label>
+          <input id="login-email" type="email" autocomplete="username" required placeholder="tucorreo@ejemplo.com">
+          <label for="login-pass">Contraseña</label>
+          <input id="login-pass" type="password" autocomplete="current-password" required placeholder="Tu contraseña">
+          <p id="login-error" role="alert" hidden>
+          </p>
+          <button id="btn-login" class="button wide" type="submit">Iniciar sesión →</button>
+        </form>
+        <div class="or-sep">
+          <span>o si prefieres</span>
+        </div>
+        <button id="login-demo-client" class="guest-button" type="button">Probar cliente demo</button>
+        <p class="muted">Cliente demo: cliente@demo.com · Contraseña: cliente123</p>
+        <button id="login-as-user" class="guest-button" type="button">Continuar como invitado</button>
+        <p class="muted login-demo">Acceso de demostración del proyecto. No uses una contraseña personal.</p>
+      </div>
+    </section>
+    <div id="main-app" hidden>
+      <div class="announcement">Un antojo, un detalle, un momento especial. Hecho en Misantla, Veracruz.</div>
+      <header class="header">
+        <a class="brand" href="#inicio">
+          <img src="assets/images/portada.jpg" alt="">
+          <span>Miga <i>&</i> Crema<small>REPOSTERÍA ARTESANAL</small>
+          </span>
+        </a>
+        <nav aria-label="Navegación principal">
+          <a href="#menu">Nuestro menú</a>
+          <a href="#nosotros">Nuestra historia</a>
+          <a href="#contacto">Encuéntranos</a>
+        </nav>
+        <div class="account-actions">
+          <button class="text-button" id="open-admin" hidden>Administración</button>
+          <button class="text-button" id="open-orders">Mis pedidos</button>
+          <button class="text-button" id="btn-logout">Cerrar sesión</button>
+        </div>
+        <button class="cart-trigger" id="open-cart">Mi pedido <span id="cart-count">0</span>
+        </button>
+      </header>
+      <main id="inicio">
+        <section class="hero">
+          <div class="hero-copy">
+            <span class="eyebrow">DE NUESTRA COCINA A TU MESA</span>
+            <h1>La vida sabe mejor<br>con algo <em>dulce.</em>
+            </h1>
+            <p>Postres artesanales, tu café favorito y desayunos para sorprender. Elige tu antojo y nosotros ponemos el cariño.</p>
+            <a class="button" href="#menu">Explorar el menú <span>↗</span>
+            </a>
+            <div class="hero-note">
+              <span>✳</span> Pequeños detalles. Grandes momentos.</div>
+          </div>
+          <div class="hero-photo">
+            <img src="assets/images/chocoflan.jpg" alt="Chocoflan artesanal de Miga y Crema" fetchpriority="high">
+            <div class="photo-label">
+              <small>EL ANTOJO DE HOY</small>
+              <strong>Un poquito de felicidad</strong>
+              <span>Horneado con mucho amor</span>
+            </div>
+          </div>
+        </section>
+        <section class="highlights" aria-label="Historias de Miga y Crema">
+          <button data-story="assets/images/chocoflan.jpg" data-title="Postres artesanales">
+            <img src="assets/images/chocoflan.jpg" alt="">Postres</button>
+          <button data-story="assets/images/bebida 5.jpg" data-title="Bebidas especiales">
+            <img src="assets/images/bebida 5.jpg" alt="">Bebidas</button>
+          <button data-story="assets/images/desayuno_6.jpg" data-title="Desayunos para sorprender">
+            <img src="assets/images/desayuno_6.jpg" alt="">Desayunos</button>
+        </section>
+        <section class="featured" aria-labelledby="featured-title">
+          <div>
+            <span class="eyebrow">PARA CADA OCASIÓN</span>
+            <h2 id="featured-title">Detalles que se disfrutan.</h2>
+            <p>Descubre nuestros pasteles y desayunos especiales.</p>
+            <a href="#menu">Ver el menú ↗</a>
+          </div>
+          <div class="carousel" aria-roledescription="carrusel" aria-label="Productos destacados">
+            <img id="carousel-image" src="assets/images/menú de pasteles.png" alt="Menú de pasteles">
+            <div class="carousel-controls">
+              <button id="carousel-prev" aria-label="Imagen anterior">←</button>
+              <span id="carousel-position" aria-live="polite">1 / 6</span>
+              <button id="carousel-next" aria-label="Imagen siguiente">→</button>
+              <button id="carousel-pause" aria-pressed="false">Pausar</button>
+            </div>
+          </div>
+        </section>
+        <div class="benefits">
+          <span>✳ Repostería artesanal</span>
+          <span>♡ Detalles para regalar</span>
+          <span>⌂ Recoge o pide a domicilio</span>
+        </div>
+        <section id="menu" class="menu">
+          <div class="section-heading">
+            <div>
+              <span class="eyebrow">ENCUENTRA TU FAVORITO</span>
+              <h2>¿Qué se te antoja hoy?</h2>
+              <p>Algo rico para cada momento del día.</p>
+            </div>
+            <label class="search">
+              <span aria-hidden="true">⌕</span>
+              <input id="search" type="search" placeholder="Buscar un antojo…" aria-label="Buscar productos">
+            </label>
+          </div>
+          <div class="menu-tools">
+            <div class="tabs" role="group" aria-label="Categorías">
+              <button class="active" data-category="todos" aria-pressed="true">Todo el menú</button>
+              <button data-category="postres" aria-pressed="false">Postres</button>
+              <button data-category="bebidas" aria-pressed="false">Bebidas</button>
+              <button data-category="desayunos" aria-pressed="false">Desayunos y detalles</button>
+            </div>
+            <label class="sort">Ordenar <select id="sort">
+                <option value="original">Por catálogo</option>
+                <option value="asc">Menor precio por sección</option>
+                <option value="desc">Mayor precio por sección</option>
+              </select>
+            </label>
+          </div>
+          <p id="results" class="results" aria-live="polite">
+          </p>
+          <div id="products" class="menu-sections">
+          </div>
+          <div class="menu-download">
+            <a href="assets/documents/menú miga_y_crema x dulce_paladar.pdf" download>Descargar nuestro menú en PDF ↓</a>
+          </div>
+        </section>
+        <section id="nosotros" class="story">
+          <img src="assets/images/puesto.jpg" alt="Nuestro negocio Miga y Crema" loading="lazy">
+          <div>
+            <span class="eyebrow">MUCHO MÁS QUE UN POSTRE</span>
+            <h2>De nuestras manos,<br>con todo el corazón.</h2>
+            <p>En Miga y Crema creemos que cada postre cuenta una historia. Mezclamos tradición y creatividad para acompañar tus celebraciones, tus mañanas y esos días que merecen un detalle especial.</p>
+            <a href="#menu">Encuentra tu próximo antojo ↗</a>
+          </div>
+        </section>
+        <section id="ubicacion" class="location-section">
+          <span class="eyebrow">TE ESPERAMOS</span>
+          <h2>Encuéntranos en Misantla</h2>
+          <p>Calle Miguel Hidalgo S/N, Misantla, Veracruz</p>
+          <iframe title="Ubicación de Miga y Crema" src="https://www.google.com/maps?q=19.94378,-96.84898&z=15&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen>
+          </iframe>
+        </section>
+      </main>
+      <footer id="contacto">
+        <div>
+          <a class="footer-brand" href="#inicio">Miga & Crema</a>
+          <p>El lado dulce de tus días.</p>
+        </div>
+        <div>
+          <strong>Visítanos</strong>
+          <p>Calle Miguel Hidalgo S/N<br>Misantla, Veracruz</p>
+          <a href="https://www.google.com/maps?q=19.94378,-96.84898" target="_blank" rel="noopener">Cómo llegar ↗</a>
+        </div>
+        <div>
+          <strong>Sigamos en contacto</strong>
+          <a href="https://www.instagram.com/miga_crema.04" target="_blank" rel="noopener">Instagram ↗</a>
+          <a href="https://www.facebook.com/share/1ZWwZdhMRP/?mibextid=wwXIfr" target="_blank" rel="noopener">Facebook ↗</a>
+          <a href="https://wa.me/522321237364" target="_blank" rel="noopener">WhatsApp ↗</a>
+        </div>
+        <small class="footer-bottom">Miga y Crema · Repostería artesanal en Misantla</small>
+      </footer>
+      <button id="floating-cart" class="floating-cart" aria-label="Ver mi carrito">
+        <span>Mi carrito · <span id="floating-count">0</span>
+        </span>
+        <strong id="floating-total">$0.00</strong>
+        <span aria-hidden="true">↗</span>
+      </button>
+    </div>
+    <dialog id="cart-dialog" class="cart-dialog">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">UN ANTOJO A LA VEZ</span>
+          <h2>Tu pedido</h2>
+        </div>
+        <button class="icon-button" data-close="cart-dialog" aria-label="Cerrar carrito">×</button>
+      </div>
+      <div id="cart-items">
+      </div>
+      <div class="cart-bottom">
+        <label class="quick-payment">Forma de pago<select id="quick-payment">
+            <option value="efectivo">Efectivo</option>
+            <option value="transferencia">Transferencia BBVA</option>
+          </select>
+        </label>
+        <button id="clear-cart" class="text-button">Vaciar carrito</button>
+        <div class="total-line">
+          <span>Subtotal</span>
+          <strong id="cart-total">
+          </strong>
+        </div>
+        <p class="muted">Precios en MXN. Disponibilidad, entrega y su costo se confirman con el negocio.</p>
+        <button class="button wide" id="checkout-button">Continuar con mi pedido →</button>
+        <button class="text-button" data-close="cart-dialog">Seguir explorando</button>
+      </div>
+    </dialog>
+    <dialog id="checkout-dialog" class="checkout-dialog">
+      <div class="dialog-heading">
+        <div>
+          <span class="eyebrow">YA CASI ESTÁ</span>
+          <h2>El último detalle</h2>
+        </div>
+        <button class="icon-button" data-close="checkout-dialog" aria-label="Cerrar resumen">×</button>
+      </div>
+      <form id="checkout-form">
+        <div class="checkout-grid">
+          <div>
+            <h3>¿Para quién preparamos el pedido?</h3>
+            <label>Tu nombre<input name="nombre" autocomplete="name" required maxlength="100" placeholder="Nombre completo">
+            </label>
+            <label>Teléfono<input name="telefono" type="tel" autocomplete="tel" required pattern="[+0-9 ()-]{10,20}" maxlength="20" placeholder="Tu número de contacto">
+            </label>
+            <label>¿Cómo lo recibes?<select name="entrega" id="delivery">
+                <option value="local">Recoger en el local</option>
+                <option value="domicilio">Entrega a domicilio</option>
+              </select>
+            </label>
+            <label id="address-label" hidden>Dirección de entrega<textarea name="direccion" id="address" autocomplete="street-address" maxlength="350" placeholder="Calle, número, colonia y referencias">
+              </textarea>
+            </label>
+            <label>Forma de pago<select name="pago" id="payment-method">
+                <option value="efectivo">Efectivo</option>
+                <option value="transferencia">Transferencia bancaria BBVA</option>
+                <option value="tarjeta" disabled>Tarjeta · pendiente de configurar</option>
+              </select>
+            </label>
+            <section id="transfer-details" class="transfer-details" hidden>
+              <h3>Transferencia BBVA</h3>
+              <dl>
+                <dt>Cuenta</dt>
+                <dd>4152 3144 4143 5370</dd>
+                <dt>CLABE</dt>
+                <dd>012 878 01501049729 0</dd>
+                <dt>Titular</dt>
+                <dd>JARIVANNY ARLEN DOMINGUEZ MONTOYA</dd>
+              </dl>
+              <p class="muted">Confirma primero disponibilidad y total con el negocio.</p>
+              <label for="comprobante">Comprobante de transferencia (si ya pagaste)</label>
+              <input id="comprobante" type="file" accept="image/jpeg,image/png,image/webp,application/pdf">
+              <p id="receipt-status" class="muted" role="status">Puedes seleccionar tu comprobante para revisarlo. Deberás adjuntarlo manualmente en WhatsApp.</p>
+              <a id="receipt-preview" hidden target="_blank" rel="noopener">Ver comprobante seleccionado ↗</a>
+            </section>
+            <label>¿Algo que debamos saber? <span class="muted">(opcional)</span>
+              <textarea name="notas" maxlength="500" placeholder="Fecha deseada, dedicatoria o indicaciones especiales">
+              </textarea>
+            </label>
+          </div>
+          <div class="summary">
+            <h3>Así va tu pedido</h3>
+            <div id="checkout-items">
+            </div>
+            <div class="total-line">
+              <span>Subtotal</span>
+              <strong id="checkout-total">
+              </strong>
+            </div>
+            <p class="muted">El negocio confirmará disponibilidad, horario, costo de envío y datos de pago por WhatsApp.</p>
+            <p class="checkout-notice">Se abrirá WhatsApp con tu resumen. Envía el mensaje para solicitar tu pedido; todavía no se ha confirmado ni cobrado.</p>
+            <button class="button wide" type="submit">Continuar por WhatsApp ↗</button>
+            <button class="text-button" id="edit-cart" type="button">Volver a mi carrito</button>
+          </div>
+        </div>
+      </form>
+    </dialog>
+    <dialog id="admin-panel" class="checkout-dialog admin-panel" hidden aria-labelledby="admin-title">
+      <div class="dialog-heading">
+        <h2 id="admin-title">Administración de pedidos</h2>
+        <button class="icon-button" data-close="admin-panel" aria-label="Cerrar administración">×</button>
+      </div>
+      <p>Historial guardado en este navegador. Los pedidos pendientes requieren confirmación con el cliente.</p>
+      <div class="admin-cards">
+        <div>
+          <span>Productos en catálogo</span>
+          <strong id="admin-total-items">0</strong>
+        </div>
+        <div>
+          <span>Pedidos guardados</span>
+          <strong id="admin-carritos">0</strong>
+        </div>
+      </div>
+      <div class="table-scroll">
+        <table class="orders-table">
+          <thead>
+            <tr>
+              <th>Pedido</th>
+              <th>Cliente</th>
+              <th>Fecha</th>
+              <th>Pago</th>
+              <th>Subtotal</th>
+              <th>Detalle</th>
+            </tr>
+          </thead>
+          <tbody id="orders-tbody">
+          </tbody>
+        </table>
+      </div>
+      <button id="btn-clear-orders" class="text-button">Eliminar historial de pedidos locales</button>
+    </dialog>
+    <dialog id="history-dialog" class="checkout-dialog">
+      <div class="dialog-heading">
+        <h2>Mis pedidos</h2>
+        <button class="icon-button" data-close="history-dialog" aria-label="Cerrar historial">×</button>
+      </div>
+      <p class="muted">Solicitudes guardadas en este navegador, pendientes de confirmar con el negocio.</p>
+      <div id="customer-orders">
+      </div>
+    </dialog>
+    <dialog id="order-dialog" class="checkout-dialog">
+      <div class="dialog-heading">
+        <h2>Detalle del pedido</h2>
+        <button class="icon-button" data-close="order-dialog" aria-label="Cerrar detalle">×</button>
+      </div>
+      <div id="order-detail">
+      </div>
+    </dialog>
+    <dialog id="story-dialog" class="story-dialog">
+      <div class="dialog-heading">
+        <h2 id="story-title">Historias</h2>
+        <button class="icon-button" data-close="story-dialog" aria-label="Cerrar historia">×</button>
+      </div>
+      <img id="story-image" alt="">
+    </dialog>
+    <div id="toast" role="status" class="toast" hidden>
+    </div>
+  </body>
+</html>

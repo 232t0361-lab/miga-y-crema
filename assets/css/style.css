@@ -1251,3 +1251,38 @@ footer {
     bottom: 87px;
   }
 }
+
+/* Títulos del menú. Cada grupo conserva su propia cuadrícula de productos. */
+.menu-group {
+  margin: 30px 0 45px;
+}
+.menu-group-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+}
+.menu-group-heading h3 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 27px;
+  font-weight: normal;
+  color: var(--wine);
+}
+.menu-group-heading span {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+}
+/* La administración es una ventana separada, no una sección del menú. */
+dialog.admin-panel {
+  margin: auto;
+  width: min(1000px, 94vw);
+}
+@media (max-width: 700px) {
+  .menu-group-heading h3 { font-size: 24px; }
+  .account-actions { flex-wrap: wrap; }
+}

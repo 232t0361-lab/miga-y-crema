@@ -1,19 +1,18 @@
 # Miga y Crema
 
-Tienda de repostería con HTML, CSS y JavaScript, sin herramientas de compilación ni nuevas dependencias.
+Tienda de repostería con HTML, CSS y JavaScript, sin herramientas de compilación ni dependencias de npm.
 
 ## Abrir el proyecto
 
-Abre `index.html` en el navegador o usa el servidor local que ya utilices. `miga.html` conserva la entrada anterior y lleva a la misma aplicación. Mantén el mismo origen/puerto para conservar los datos del navegador.
+Abre `index.html` en el navegador o usa el servidor local que ya utilices. No necesitas instalar paquetes. Mantén el mismo origen/puerto para conservar los datos del navegador.
 
 ## Estructura
 
 ```text
 index.html                 Pantallas y entrada principal
-miga.html                  Entrada compatible con la dirección anterior
 assets/
   css/style.css            Diseño y adaptación a pantallas pequeñas
-  js/catalogo.js           Catálogo original y precios
+  js/catalogo.js           Catálogo, categorías y precios
   js/app.js                Menú, búsqueda, carrito y resumen de WhatsApp
   js/auth.js               Login, sesión y controles del carrito
   js/orders.js             Historial, administración y comprobante
@@ -21,21 +20,20 @@ assets/
   images/                  Fotografías utilizadas por la aplicación
   documents/               Menú PDF
 docs/
-  archive/original/        Fuentes recuperadas del último commit anterior
-  archive/root-images/     Imágenes que estaban sueltas en la raíz
-  archive/                CSS y supuesto servidor anteriores
   previews/               Capturas de diseño
-  funcionalidades.md      Correspondencia con las funciones anteriores
+  funcionalidades.md      Funciones disponibles
+  guia-del-codigo.md      Explicación del código para la tesis
 tests/                     Pruebas de regresión en navegador
-package.json               Dependencias originales conservadas
-package-lock.json          Versiones originales conservadas
 ```
 
 ## Login de demostración
 
-- Administrador: `admin@admin.com` / `admin123` (credenciales originales del proyecto).
-- Cliente: correo válido y contraseña no vacía, como en la versión original, o botón **Entrar como cliente**.
+- Administrador: `admin@admin.com` / `admin123`.
+- Cliente demo: `cliente@demo.com` / `cliente123`, o botón **Probar cliente demo**. Tiene acceso al menú, carrito y sus pedidos, sin administración.
+- El formulario valida las credenciales de estas dos cuentas. **Continuar como invitado** permite entrar sin cuenta.
 - La sesión dura en la pestaña y se conserva al recargar. Cerrar sesión no vacía el carrito.
+
+El botón **Administración** aparece solo en la sesión del administrador y abre una ventana separada. El panel no forma parte del menú público. **Mis pedidos** muestra las solicitudes del cliente que inició sesión.
 
 Este login es una demostración del lado del navegador; no autentica cuentas reales ni protege datos en un servidor. No introduzcas contraseñas personales. No se guardan contraseñas.
 
@@ -43,13 +41,11 @@ Este login es una demostración del lado del navegador; no autentica cuentas rea
 
 Se conservan las claves `miga_cart` y `miga_orders`. Los carritos con imágenes en las rutas anteriores `img/` se migran al cargarlos. Los pedidos anteriores aparecen en el panel del administrador, incluso si no tienen el campo de usuario de las solicitudes nuevas. Las solicitudes nuevas aparecen también en **Mis pedidos** del cliente correspondiente.
 
-El botón de WhatsApp guarda una solicitud local pendiente y abre su resumen. No confirma un envío ni un pago. El carrito se conserva para poder corregir o reintentar. El comprobante se puede seleccionar y revisar, pero debe adjuntarse manualmente en WhatsApp. Los datos de BBVA se conservaron de la página anterior.
+El botón de WhatsApp guarda una solicitud local pendiente y abre su resumen. No confirma un envío ni un pago. El carrito se conserva para poder corregir o reintentar. El comprobante se puede seleccionar y revisar, pero debe adjuntarse manualmente en WhatsApp.
 
-## Servidor y tarjeta
+## Pagos
 
-El `server.js` original contenía código del carrusel que usa `document`, no un servidor Express. Se conserva en `docs/archive/` y no se necesita para abrir esta aplicación.
-
-La versión antigua `miga.html` mostraba Mercado Pago, pero llamaba a `/create_preference` en un servidor inexistente. La opción de tarjeta permanece visible como pendiente de configuración. No se presenta como cobro funcional. Las dependencias originales de Express, CORS, Multer y Mercado Pago se conservan sin cambios; habilitar pagos reales requiere completar el servidor y su configuración.
+Están disponibles efectivo y transferencia BBVA para acordar el pago con el negocio. La opción de tarjeta aparece como pendiente de configuración y no realiza cobros. Esta versión no incluye un servidor de pagos.
 
 ## Verificación
 

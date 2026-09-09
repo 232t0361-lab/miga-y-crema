@@ -1,98 +1,144 @@
 'use strict';
 
-// Preserve the original classroom/demo login. No password is stored.
+// Cuentas para probar los dos roles durante la presentación del proyecto.
+const usuariosDemo = [
+  { correo: 'admin@admin.com', clave: 'admin123', rol: 'admin' },
+  { correo: 'cliente@demo.com', clave: 'cliente123', rol: 'user' }
+];
+
+// La sesión indica quién entró. No guardamos la contraseña.
 let currentSession = null;
 try {
-  const saved = JSON.parse(sessionStorage.getItem('miga_session') || 'null');
-  if (saved && typeof saved.email === 'string' && ['user', 'admin'].includes(saved.role)) currentSession = saved;
-} catch { /* A new session starts at the login screen. */ }
-
-function applySession() {
-  const signedIn = Boolean(currentSession);
-  $('login-screen').hidden = signedIn;
-  $('main-app').hidden = !signedIn;
-  $('admin-panel').hidden = currentSession?.role !== 'admin';
-  $('open-orders').textContent = currentSession?.role === 'admin' ? 'Administración' : 'Mis pedidos';
-  document.dispatchEvent(new Event('sessionchange'));
+  const guardada = JSON.parse(sessionStorage.getItem('miga_session') || 'null');
+  if (guardada && typeof guardada.email === 'string') {
+    if (guardada.role === 'user' || guardada.role === 'admin') currentSession = guardada;
+  }
+} catch {
+  currentSession = null;
 }
 
-function signIn(email, role) {
-  currentSession = { email, role };
-  try { sessionStorage.setItem('miga_session', JSON.stringify(currentSession)); } catch { /* Session remains usable in memory. */ }
-  $('login-pass').value = '';
-  $('login-error').hidden = true;
+function esAdministrador() {
+  return currentSession !== null && currentSession.role === 'admin';
+}
+
+// El cliente nunca ve el botón ni la ventana de administración.
+function applySession() {
+  const haySesion = currentSession !== null;
+  const administrador = esAdministrador();
+  document.getElementById('login-screen').hidden = haySesion;
+  document.getElementById('main-app').hidden = !haySesion;
+  document.getElementById('open-admin').hidden = !administrador;
+  document.getElementById('admin-panel').hidden = !administrador;
+  if (!administrador) document.getElementById('admin-panel').close();
+  document.getElementById('open-orders').textContent = 'Mis pedidos';
+
+  // Estos archivos se cargan después de auth.js; al iniciar todavía no están listos.
+  if (typeof renderOrders === 'function') renderOrders();
+  if (typeof scheduleCarousel === 'function') scheduleCarousel();
+}
+
+function signIn(correo, rol) {
+  currentSession = { email: correo, role: rol };
+  try {
+    sessionStorage.setItem('miga_session', JSON.stringify(currentSession));
+  } catch {
+    // Se puede usar la página aunque el navegador no permita guardar la sesión.
+  }
+  document.getElementById('login-pass').value = '';
+  document.getElementById('login-error').hidden = true;
   applySession();
   window.scrollTo(0, 0);
 }
 
-$('login-form').addEventListener('submit', event => {
-  event.preventDefault();
-  if (!event.currentTarget.reportValidity()) return;
-  const email = $('login-email').value.trim().toLowerCase();
-  const password = $('login-pass').value;
-  if (email === 'admin@admin.com') {
-    if (password !== 'admin123') {
-      $('login-error').textContent = 'La contraseña de administrador es incorrecta.';
-      $('login-error').hidden = false;
+function iniciarSesion(evento) {
+  evento.preventDefault();
+  if (!evento.currentTarget.reportValidity()) return;
+  const correo = document.getElementById('login-email').value.trim().toLowerCase();
+  const clave = document.getElementById('login-pass').value;
+
+  for (const usuario of usuariosDemo) {
+    if (correo === usuario.correo && clave === usuario.clave) {
+      signIn(usuario.correo, usuario.rol);
       return;
     }
-    signIn(email, 'admin');
-  } else {
-    signIn(email, 'user');
   }
-});
+  document.getElementById('login-error').textContent = 'El correo o la contraseña son incorrectos.';
+  document.getElementById('login-error').hidden = false;
+}
 
-$('login-as-user').addEventListener('click', () => {
-  let guestId;
+function entrarComoDemo() {
+  document.getElementById('login-email').value = 'cliente@demo.com';
+  document.getElementById('login-pass').value = 'cliente123';
+  document.getElementById('login-form').requestSubmit();
+}
+
+function entrarComoCliente() {
+  let invitado;
   try {
-    guestId = localStorage.getItem('miga_guest');
-    if (!guestId) {
-      guestId = `cliente-${Date.now()}@demo.local`;
-      localStorage.setItem('miga_guest', guestId);
+    invitado = localStorage.getItem('miga_guest');
+    if (!invitado) {
+      invitado = 'cliente-' + Date.now() + '@demo.local';
+      localStorage.setItem('miga_guest', invitado);
     }
-  } catch { guestId = 'cliente@demo.local'; }
-  signIn(guestId, 'user');
-});
+  } catch {
+    invitado = 'cliente@demo.local';
+  }
+  signIn(invitado, 'user');
+}
 
-$('btn-logout').addEventListener('click', () => {
-  document.querySelectorAll('dialog[open]').forEach(dialog => dialog.close());
+function cerrarSesion() {
+  for (const ventana of document.querySelectorAll('dialog[open]')) ventana.close();
   clearTimeout(toastTimer);
-  $('toast').hidden = true;
+  document.getElementById('toast').hidden = true;
   currentSession = null;
-  try { sessionStorage.removeItem('miga_session'); } catch { /* In-memory logout still succeeds. */ }
-  $('login-form').reset();
-  $('checkout-form').reset();
-  $('address-label').hidden = true;
-  $('address').required = false;
+  try {
+    sessionStorage.removeItem('miga_session');
+  } catch {
+    // La sesión de esta página se cierra igualmente.
+  }
+  document.getElementById('login-form').reset();
+  document.getElementById('checkout-form').reset();
+  document.getElementById('address-label').hidden = true;
+  document.getElementById('address').required = false;
   updatePaymentDetails();
-  $('comprobante').dispatchEvent(new Event('change'));
+  limpiarComprobante();
   applySession();
   window.scrollTo(0, 0);
-  $('login-email').focus();
-});
+  document.getElementById('login-email').focus();
+}
 
-$('floating-cart').addEventListener('click', () => $('cart-dialog').showModal());
-$('clear-cart').addEventListener('click', () => {
-  if (cart.length && confirm('¿Deseas vaciar el carrito?')) {
+function vaciarCarrito() {
+  if (cart.length === 0) return;
+  if (confirm('¿Deseas vaciar el carrito?')) {
     cart = [];
     saveCart();
     toast('Carrito vaciado');
   }
-});
+}
 
-$('cart-items').addEventListener('change', event => {
-  const input = event.target.closest('[data-quantity]');
-  if (!input) return;
-  const item = cart.find(product => product.id === Number(input.dataset.quantity));
-  if (!item) return;
-  const quantity = Number(input.value);
-  if (!Number.isInteger(quantity) || quantity < 1 || quantity > 99) {
-    input.reportValidity();
-    input.value = item.cantidad;
+function escribirCantidad(evento) {
+  const entrada = evento.target.closest('[data-quantity]');
+  if (!entrada) return;
+  const producto = buscarEnCarrito(Number(entrada.dataset.quantity));
+  if (!producto) return;
+  const cantidad = Number(entrada.value);
+  if (!Number.isInteger(cantidad) || cantidad < 1 || cantidad > 99) {
+    entrada.reportValidity();
+    entrada.value = producto.cantidad;
     return;
   }
-  item.cantidad = quantity;
+  producto.cantidad = cantidad;
   saveCart();
+}
+
+document.getElementById('login-form').addEventListener('submit', iniciarSesion);
+document.getElementById('login-demo-client').addEventListener('click', entrarComoDemo);
+document.getElementById('login-as-user').addEventListener('click', entrarComoCliente);
+document.getElementById('btn-logout').addEventListener('click', cerrarSesion);
+document.getElementById('clear-cart').addEventListener('click', vaciarCarrito);
+document.getElementById('cart-items').addEventListener('change', escribirCantidad);
+document.getElementById('floating-cart').addEventListener('click', function () {
+  document.getElementById('cart-dialog').showModal();
 });
 
 applySession();
