@@ -26,9 +26,7 @@
           </select>
 
           <label for="metodo-pago-selector" style="margin-top:15px; display:block; font-weight:bold;">Método de Pago</label>
-          <select id="metodo-pago-selector" onchange="seleccionarMetodoPago()">
             <option value="transferencia">Transferencia Bancaria BBVA</option>
-            <option value="tarjeta">Tarjeta de Crédito / Débito (Mercado Pago)</option>
           </select>
         </div>
 
@@ -51,10 +49,6 @@
               Confirmar y Pagar
             </button>
           </div>
-
-          <div id="seccion-mercadopago" class="hidden" style="margin-top:15px;">
-            <h4>Paga de forma segura con Mercado Pago</h4>
-            <div id="wallet_container"></div>
           </div>
         </div>
       </div>
@@ -63,7 +57,7 @@
 
   <div id="login-screen" class="login-screen">
     <div class="login-card">
-      <img src="img/PORTADA.jpg" alt="Logo Miga y Cream" class="login-logo" />
+      <img src="img/portada.jpg" alt="Logo Miga y Cream" class="login-logo" />
       <h1>Bienvenido a Miga y Crema</h1>
       <p>Inicia sesión para continuar</p>
 
@@ -85,7 +79,7 @@
   <div id="main-app" class="hidden">
     <header>
       <div class="logo-container">
-        <img src="img/PORTADA.jpg" alt="Logo MIGA Y CREMA" class="logo" />
+        <img src="img/portada.jpg" alt="Logo MIGA Y CREMA" class="logo" />
         <h1>MIGA Y CREMA</h1>
       </div>
 
@@ -231,7 +225,6 @@
       <label for="metodo-pago">Método de Pago rápida</label>
       <select id="metodo-pago">
         <option value="efectivo">Efectivo</option>
-        <option value="tarjeta">Tarjeta</option>
         <option value="transferencia">Transferencia</option>
       </select>
 
@@ -253,10 +246,6 @@
   <div id="toast" class="toast hidden"></div>
 
   <script>
-    // Inicialización de Mercado Pago
-    const mp = new MercadoPago("APP_USR-5b0ab2c2-25e8-4a01-b94a-5874108e45b8", {
-      locale: "es-MX"
-    });
 
     // Tu arreglo original completo intacto sin omitir nada
     const postres = [
@@ -818,17 +807,9 @@
     function seleccionarMetodoPago() {
       const metodo = document.getElementById("metodo-pago-selector").value;
       const seccionTransferencia = document.getElementById("seccion-transferencia");
-      const seccionMercadoPago = document.getElementById("seccion-mercadopago");
 
       if (metodo === "transferencia") {
         seccionTransferencia.classList.remove("hidden");
-        seccionMercadoPago.classList.add("hidden");
-      } else if (metodo === "tarjeta") {
-        seccionTransferencia.classList.add("hidden");
-        seccionMercadoPago.classList.remove("hidden");
-        
-        // Pide las credenciales de preferencia y renderiza el botón de Mercado Pago
-        generarBotonMercadoPago();
       }
     }
 
